@@ -1,0 +1,11 @@
+{
+  "slug": "exemplo-ficticio",
+  "titulo": "Prévia fictícia",
+  "perfil": { "usuario": "negocio_exemplo", "verificado": false },
+  "slides": [
+    { "src": "../saidas/carrosseis/exemplo-ficticio/slide-01.png", "alt": "Capa fictícia" },
+    { "src": "../saidas/carrosseis/exemplo-ficticio/slide-02.png", "alt": "Segundo slide fictício" }
+  ],
+  "legenda": "Texto de teste sem dados de cliente.",
+  "horario": "Agora"
+}

@@ -1,0 +1,35 @@
+# Segredos e configuracao local
+.env
+.env.*
+!.env.example
+
+# Dados de execucao e registros locais
+runtime/
+logs/
+*.log
+
+# Recursos e artefatos de cada negócio (mantenha apenas a estrutura versionada)
+recursos/logos/*
+!recursos/logos/.gitkeep
+recursos/fotos/*
+!recursos/fotos/.gitkeep
+recursos/referencias/*
+!recursos/referencias/.gitkeep
+saidas/carrosseis/*
+!saidas/carrosseis/.gitkeep
+saidas/posts-individuais/*
+!saidas/posts-individuais/.gitkeep
+saidas/posts-de-anuncio/*
+!saidas/posts-de-anuncio/.gitkeep
+previas/*
+!previas/.gitkeep
+
+# Artefatos de Node e Python
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Arquivos do sistema e do editor
+.DS_Store
+Thumbs.db
+.vscode/

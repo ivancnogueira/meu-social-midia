@@ -1,0 +1,15 @@
+# Configuração opcional usada pelos geradores locais.
+# Use caminhos relativos ao diretório do projeto. Deixe avatar vazio para exibir iniciais.
+perfil:
+  usuario: seu_perfil
+  avatar:
+  verificado: false
+
+preview:
+  curtidas:
+  horario: Agora
+
+tema:
+  cor_fundo: "#F4F1EA"
+  cor_texto: "#142C2C"
+  cor_destaque: "#2A9D8F"

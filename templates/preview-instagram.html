@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{PAGE_TITLE}}</title>
+  <style>
+    :root { --surface:#fff; --page:#edf0f3; --line:#dbdbdb; --text:#111; --muted:#737373; --accent:#0095f6; }
+    * { box-sizing:border-box; } body { margin:0; min-height:100vh; display:grid; place-items:center; padding:36px 16px; background:var(--page); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+    .post { width:min(420px,100%); overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--surface); box-shadow:0 16px 40px #0002; }
+    header,.actions { display:flex; align-items:center; gap:10px; padding:9px 12px; } header { border-bottom:1px solid #eee; min-height:52px; }
+    .avatar { display:grid; place-items:center; width:34px; height:34px; overflow:hidden; border-radius:50%; background:#dfe5e8; font-size:12px; font-weight:700; } .avatar img { width:100%; height:100%; object-fit:cover; }
+    .profile { min-width:0; flex:1; } .username { font-size:14px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .verified { color:var(--accent); font-size:13px; } .hidden { display:none; }
+    .media { position:relative; aspect-ratio:4/5; overflow:hidden; background:#e8ecef; touch-action:pan-y; user-select:none; } .track { display:flex; height:100%; transition:transform .24s ease; } .slide { min-width:100%; height:100%; } .slide img { width:100%; height:100%; display:block; object-fit:cover; pointer-events:none; }
+    .counter { position:absolute; top:10px; right:10px; padding:4px 8px; border-radius:99px; background:#000a; color:#fff; font-size:12px; } .hit { position:absolute; inset-block:0; width:33%; border:0; background:transparent; } .previous { left:0; } .next { right:0; }
+    .dots { display:flex; justify-content:center; gap:4px; height:20px; padding-top:8px; } .dot { width:6px; height:6px; border:0; border-radius:50%; background:#c8c8c8; } .dot[aria-current="true"] { background:var(--accent); }
+    .actions { gap:14px; padding-top:3px; } .icon { border:0; background:transparent; font-size:22px; line-height:1; } .save { margin-left:auto; } .meta { padding:0 12px 14px; font-size:13px; line-height:1.4; } .likes { font-weight:700; } .caption { margin:4px 0; } .time { color:var(--muted); font-size:11px; text-transform:uppercase; }
+    button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; } @media (max-width:520px) { body { display:block; padding:0; background:var(--surface); } .post { width:100vw; min-height:100vh; border:0; border-radius:0; box-shadow:none; } }
+  </style>
+</head>
+<body>
+  <article class="post" aria-label="Prévia de publicação para Instagram">
+    <header><div class="avatar">{{AVATAR}}</div><div class="profile"><div class="username">{{USERNAME}} <span class="verified {{VERIFIED_CLASS}}" aria-label="Conta verificada">●</span></div></div><button class="icon" aria-label="Mais opções" type="button">⋯</button></header>
+    <section class="media" id="media" aria-label="Imagens da publicação"><div class="track" id="track"></div><span class="counter" id="counter"></span><button class="hit previous" id="previous" type="button" aria-label="Slide anterior"></button><button class="hit next" id="next" type="button" aria-label="Próximo slide"></button></section>
+    <nav class="dots" id="dots" aria-label="Navegação de slides"></nav>
+    <div class="actions" aria-label="Ações ilustrativas"><button class="icon" type="button" aria-label="Curtir">♡</button><button class="icon" type="button" aria-label="Comentar">◌</button><button class="icon" type="button" aria-label="Compartilhar">⌁</button><button class="icon save" type="button" aria-label="Salvar">♧</button></div>
+    <div class="meta"><div class="likes" id="likes"></div><p class="caption"><strong>{{USERNAME}}</strong> <span id="caption"></span></p><div class="time" id="time"></div><span id="live" class="hidden" aria-live="polite"></span></div>
+  </article>
+  <script id="preview-data" type="application/json">{{PREVIEW_DATA}}</script>
+  <script>
+    const data = JSON.parse(document.getElementById('preview-data').textContent), track = document.getElementById('track'), dots = document.getElementById('dots');
+    const counter = document.getElementById('counter'), media = document.getElementById('media'), live = document.getElementById('live'); let current = 0, startX = 0, dragging = false;
+    data.slides.forEach((slide, index) => { const item=document.createElement('div'); item.className='slide'; const image=document.createElement('img'); image.src=slide.src; image.alt=slide.alt || `Slide ${index+1}`; item.append(image); track.append(item); const dot=document.createElement('button'); dot.className='dot'; dot.type='button'; dot.setAttribute('aria-label',`Ir para slide ${index+1}`); dot.addEventListener('click',()=>show(index)); dots.append(dot); });
+    document.getElementById('caption').textContent=data.legenda || ''; document.getElementById('likes').textContent=data.curtidas || ''; document.getElementById('time').textContent=data.horario || '';
+    function show(index) { current=Math.max(0,Math.min(data.slides.length-1,index)); track.style.transform=`translateX(${-current*100}%)`; counter.textContent=`${current+1}/${data.slides.length}`; [...dots.children].forEach((dot,i)=>dot.setAttribute('aria-current',String(i===current))); live.textContent=`Slide ${current+1} de ${data.slides.length}`; }
+    function advance(delta) { show(current+delta); } document.getElementById('previous').onclick=()=>advance(-1); document.getElementById('next').onclick=()=>advance(1);
+    media.addEventListener('pointerdown',e=>{ dragging=true; startX=e.clientX; media.setPointerCapture(e.pointerId); }); media.addEventListener('pointerup',e=>{ if(!dragging)return; dragging=false; const delta=e.clientX-startX; if(Math.abs(delta)>45)advance(delta<0?1:-1); });
+    document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft')advance(-1); if(e.key==='ArrowRight')advance(1); }); show(0);
+  </script>
+</body>
+</html>

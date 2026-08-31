@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import { interpretarTelegram } from '../automacoes/robo-telegram.mjs';
+test('Telegram exige ação e código',()=>{assert.deepEqual(interpretarTelegram({message:{chat:{id:42},text:'APROVAR TESTE-001'}}),{remetente:'42',acao:'aprovar',codigo:'TESTE-001',observacao:''});assert.equal(interpretarTelegram({message:{chat:{id:42},text:'ok'}}),null);});

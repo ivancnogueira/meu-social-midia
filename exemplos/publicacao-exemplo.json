@@ -1,0 +1,13 @@
+{
+  "id": "DEMO-001",
+  "slug": "demonstracao-removivel",
+  "tipo": "carrossel",
+  "titulo": "Demonstração removível",
+  "perfil": { "usuario": "seu_perfil", "verificado": false },
+  "slides": [
+    { "titulo": "Uma ideia clara começa aqui", "apoio": "Substitua este conteúdo pelos dados do seu negócio." },
+    { "titulo": "Organize a mensagem", "apoio": "Um ponto principal por slide facilita a leitura." },
+    { "titulo": "Termine com direção", "apoio": "Use uma chamada para ação coerente com sua oferta." }
+  ],
+  "legenda": "Exemplo fictício e removível para testar o fluxo local."
+}
