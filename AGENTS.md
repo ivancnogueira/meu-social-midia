@@ -1,48 +1,42 @@
-# Contexto do projeto
+# Instruções para o Codex
 
-Este e um repositorio novo, generico e instalavel. Ele sera vendido como uma ferramenta de social media para qualquer negocio ou profissional e tambem usado em workshops.
+Este repositório é uma ferramenta local e genérica de produção de conteúdo para Instagram. Personalize o sistema somente com os dados e ativos fornecidos pelo usuário desta instalação.
 
-## Escopo
+## Antes de trabalhar
 
-Construir um sistema local que permita:
+1. Leia `README.md` e, em instalações novas, `INSTALAR-COM-CODEX.md`.
+2. Consulte os arquivos existentes em `conteudos/` antes de criar ou alterar conteúdo.
+3. Preserve configurações e respostas já preenchidas; não substitua conteúdo do usuário sem autorização.
+4. Use somente fotos, logos e referências que o usuário tenha fornecido ou autorizado.
 
-1. instalar dependencias e habilidades do Codex com um unico comando;
-2. registrar o perfil do negocio, publico, voz, oferta e pilares de conteudo;
-3. criar carrosseis, posts individuais e criativos para anuncios;
-4. gerar copy especifica para Instagram;
-5. criar previas e artefatos de publicacao;
-6. publicar no Instagram por meio da Meta Graph API, apenas apos aprovacao;
-7. enviar uma solicitacao de aprovacao pelo Telegram na primeira versao;
+## Instalação assistida
 
-## Limites de produto
+Quando o usuário pedir para instalar ou configurar o projeto pelo chat:
 
-- Nao copiar ou mencionar marcas, pessoas, ferramentas ou ativos de qualquer projeto usado como referencia durante o desenvolvimento.
-- Nao incluir imagens de pessoas, logos, tokens, contas, URLs ou credenciais de clientes.
-- Nao embutir `OPENAI_API_KEY` no fluxo basico. O trial precisa funcionar com texto, fotos proprias e layouts locais; imagem por IA e opcional.
-- Nao publicar por uma resposta vaga. Exigir remetente autorizado, identificador unico da publicacao, confirmacao unica e registro de auditoria.
-- Nao revelar tokens em saida de terminal, logs, mensagens ou commits.
+1. verifique Node.js 20+ e Git;
+2. colete no chat somente dados não secretos do negócio;
+3. nunca solicite tokens no chat, em argumentos de terminal ou em logs;
+4. execute `npm run configurar` de forma repetível e preserve `.env` e conteúdos existentes;
+5. instale as habilidades de `habilidades/` fora do repositório somente com autorização explícita;
+6. conclua com `npm test` e `npm run diagnosticar`;
+7. não publique nem inicie integrações externas durante a instalação.
 
-## Decisoes tecnicas iniciais
+## Arquivos de trabalho
 
-- Runtime principal: Node.js 20+ e npm.
-- Instalador: `npm run configurar` e, depois, uma distribuicao `npx` opcional.
-- Publicacao Instagram: adaptador Node com `fetch` nativo, lendo `.env` local.
-- Conteudo e configuracao: arquivos Markdown/YAML legiveis por humanos.
-- Previas: HTML local e imagens exportadas. O robo pode receber a imagem diretamente; link externo fica para uma fase posterior.
-- Aprovacao V1: Telegram por long polling, para evitar exigir um servidor publico no computador do cliente.
+- `conteudos/`: perfil, identidade visual, pilares, ideias e campanhas.
+- `recursos/`: fotos, logos e referências do próprio usuário.
+- `saidas/`: imagens e manifestos gerados.
+- `previas/`: páginas HTML locais para revisão.
+- `runtime/` e `logs/`: estado e auditoria locais, nunca versionados.
 
-## Uso das habilidades internas
+## Segurança e publicação
 
-As habilidades que serao criadas em `habilidades/` precisam ser genericas, pequenas e focadas. Cada uma deve ter `SKILL.md` valido para Codex e nunca presumir uma marca especifica.
+- Credenciais ficam exclusivamente no `.env` local e nunca devem aparecer em respostas, logs ou commits.
+- A publicação exige identificador único, remetente autorizado, aprovação explícita e registro de auditoria.
+- Não considere respostas vagas como aprovação.
+- Use apenas a API oficial da Meta para Instagram e o bot do Telegram configurado pelo usuário.
+- Antes de uma ação externa, confirme que o usuário pediu a ação e que o job correto está aprovado.
 
-Skills esperadas:
+## Habilidades internas
 
-- `nucleo-social-media`: conhece os arquivos de perfil, conteudo, saida e aprovacao;
-- `configurar-instagram`: guia a configuracao manual de Meta e valida as credenciais;
-- `copywriter-instagram`: escreve copy para posts, carrosseis e legendas;
-- `criar-carrossel`: monta carrosseis;
-- `criar-post-individual`: monta posts individuais;
-- `criar-post-anuncio`: monta criativos de anuncio;
-- `planejar-conteudo`: transforma ideias do cliente em calendario e briefs.
-
-Leia `PLANO-DO-PROJETO.md` antes de tomar decisoes estruturais. Mantenha o projeto simples para instalacao autonoma.
+As habilidades em `habilidades/` são pequenas, genéricas e independentes de marca. Use a habilidade adequada à tarefa e siga o respectivo `SKILL.md`.

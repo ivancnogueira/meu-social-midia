@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const arquivos = [
   'package.json',
+  'INSTALAR-COM-CODEX.md',
   '.env.example',
   'automacoes/configurar.mjs',
   'automacoes/diagnosticar.mjs',
@@ -26,8 +27,7 @@ const arquivos = [
   'exemplos/publicacao-exemplo.json',
   'documentacao/configurar-meta.md',
   'documentacao/fluxo-completo.md',
-  'documentacao/configurar-telegram.md',
-  'documentacao/guia-do-workshop.md'
+  'documentacao/configurar-telegram.md'
 ];
 const habilidades = [
   'nucleo-social-media',

@@ -33,3 +33,11 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Planejamento e anotações internas (não fazem parte da distribuição)
+/PLANO-DO-PROJETO.md
+/documentacao/guia-do-workshop.md
+/documentacao-interna/
+/notas-internas/
+/*.interno.md
+/.codex/

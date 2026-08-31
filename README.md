@@ -6,6 +6,12 @@ Uma fundação local e instalável para organizar o perfil de um negócio, plane
 
 Pré-requisitos: Node.js 20 ou superior e Git.
 
+### Pelo Codex
+
+Em uma tarefa local do Codex, envie o prompt pronto de [INSTALAR-COM-CODEX.md](INSTALAR-COM-CODEX.md). Ele pode clonar o repositório, conduzir a instalação, fazer as perguntas do perfil e executar todas as validações. Tokens continuam sendo preenchidos somente no `.env` local, nunca no chat.
+
+### Pelo terminal
+
 ```powershell
 npm run configurar
 ```
@@ -34,7 +40,7 @@ npm test
 
 ## Preview genérico
 
-Defina o perfil visual em `conteudos/identidade-visual.yml`. Para gerar uma prévia, crie um JSON com `slug`, `slides` (caminhos relativos) e a legenda; use [testes/fixtures/preview-ficticio.json](</E:/PROJETOS/social-media-studio/testes/fixtures/preview-ficticio.json>) como contrato de referência e execute:
+Defina o perfil visual em `conteudos/identidade-visual.yml`. Para gerar uma prévia, crie um JSON com `slug`, `slides` (caminhos relativos) e a legenda; use [exemplos/publicacao-exemplo.json](exemplos/publicacao-exemplo.json) como referência e execute:
 
 ```powershell
 npm run criar-previa -- caminho/para/publicacao.json
@@ -59,7 +65,7 @@ O fluxo de aprovação e publicação está explicado em `documentacao/fluxo-com
 ```text
 automacoes/      Criação, diagnóstico, aprovação, mensageria e publicação
 conteudos/       Perfil do negócio, pilares, ideias e campanhas
-documentacao/    Guias para instalação, Meta, Telegram e workshop
+documentacao/    Guias de configuração da Meta, Telegram e fluxo completo
 habilidades/     Habilidades internas que o instalador pode copiar ao Codex
 previas/         Galeria local de prévias geradas
 recursos/        Fotos, logos e referências fornecidas pelo próprio usuário
@@ -73,4 +79,4 @@ saidas/          Artefatos gerados por tipo de publicação
 - Use apenas recursos que você tem autorização para utilizar.
 - A publicação futura exigirá identificação única, aprovação explícita e auditoria local.
 
-Leia [PLANO-DO-PROJETO.md](PLANO-DO-PROJETO.md) para a evolução prevista e [AGENTS.md](AGENTS.md) antes de fazer alterações estruturais com Codex.
+Leia [AGENTS.md](AGENTS.md) antes de instalar, configurar ou alterar o projeto com o Codex.

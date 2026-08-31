@@ -18,10 +18,6 @@ Esta etapa é manual. O instalador não cria aplicativo, conta ou token em seu n
 5. Execute `npm run diagnosticar`. O comando informa somente se os campos estão preenchidos; ele nunca mostra seus valores.
 6. Configure uma hospedagem HTTPS própria para as imagens que a Graph API precisa buscar e registre as URLs no manifesto da publicação. Nenhum provedor público é embutido pelo projeto.
 
-## Material de apoio do instrutor
-
-Inclua, antes de entregar uma turma, um link configurável para o vídeo do instrutor e capturas atuais do painel da Meta com quaisquer dados pessoais ou segredos ocultos. Interfaces e permissões podem mudar; siga a documentação oficial vigente quando houver diferença.
-
 ## Teste seguro
 
 Use primeiro `npm run publicar-instagram -- caminho/publicacao.json`. A publicação real exige um job aprovado, URLs HTTPS válidas e as credenciais locais.
