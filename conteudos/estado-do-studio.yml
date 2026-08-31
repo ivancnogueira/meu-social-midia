@@ -1,0 +1,10 @@
+versao: 1
+onboarding:
+  status: nao_iniciado
+  perfil: pendente
+  identidade_visual: pendente
+  pilares: pendente
+  integracao_instagram: opcional
+producao:
+  ultimo_briefing:
+  proximo_passo: concluir_onboarding

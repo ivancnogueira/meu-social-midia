@@ -1,4 +1,4 @@
-import { access, copyFile, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { access, copyFile, cp, mkdir } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { execFileSync, spawn } from 'node:child_process';
 import { homedir } from 'node:os';
@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { gerarConfigVps } from './gerar-config-vps.mjs';
+import { executarOnboarding } from './onboarding.mjs';
 import { lerEnv } from './lib/arquivos.mjs';
 import { atualizarArquivoEnv, criarSegredo, detectarAmbiente, normalizarModo, normalizarUrlBase } from './lib/configuracao.mjs';
 
@@ -138,28 +139,16 @@ function modeloPerfil({ nicho, publico, oferta, tom, cta }) {
   return `# Perfil da marca\n\nEste arquivo descreve o negócio que será atendido. Atualize-o sempre que a estratégia mudar.\n\n## Negócio e nicho\n\n${nicho}\n\n## Público prioritário\n\n${publico}\n\n## Oferta principal\n\n${oferta}\n\n## Tom de voz\n\n${tom}\n\n## Chamada para ação preferida\n\n${cta}\n\n## Limites e cuidados\n\n- Não inventar preços, promessas, resultados, depoimentos ou informações reguladas.\n- Confirmar detalhes que não estejam definidos neste arquivo antes de usá-los em uma publicação.\n`;
 }
 
-async function perguntarPerfil(diretorioDoProjeto) {
+async function oferecerOnboarding(diretorioDoProjeto) {
   if (!input.isTTY || !output.isTTY) return;
-  const caminhoPerfil = join(diretorioDoProjeto, 'conteudos', 'perfil-da-marca.md');
-  const atual = await readFile(caminhoPerfil, 'utf8');
-  const ehModelo = atual.includes('<!-- social-media-studio: modelo-inicial -->');
   const rl = createInterface({ input, output });
+  let iniciar = false;
   try {
-    if (!ehModelo) {
-      const atualizar = (await rl.question('Já existem dados de negócio. Atualizar o perfil? [s/N] ')).trim().toLowerCase();
-      if (!['s', 'sim'].includes(atualizar)) { console.log('Perfil existente preservado.'); return; }
-    }
-    console.log('\nResponda com o que já souber; "A definir" pode ser refinado depois.');
-    const respostas = {
-      nicho: (await rl.question('Nicho ou tipo de negócio: ')).trim() || 'A definir',
-      publico: (await rl.question('Público prioritário: ')).trim() || 'A definir',
-      oferta: (await rl.question('Oferta principal: ')).trim() || 'A definir',
-      tom: (await rl.question('Tom de voz: ')).trim() || 'A definir',
-      cta: (await rl.question('CTA preferido: ')).trim() || 'A definir'
-    };
-    await writeFile(caminhoPerfil, modeloPerfil(respostas), 'utf8');
-    console.log('Perfil inicial salvo em conteudos/perfil-da-marca.md.');
+    const resposta = (await rl.question('Executar agora o onboarding estratégico completo da marca? [S/n] ')).trim().toLowerCase();
+    iniciar = !['n', 'nao', 'não'].includes(resposta);
   } finally { rl.close(); }
+  if (iniciar) await executarOnboarding({ diretorioRaiz: diretorioDoProjeto });
+  else console.log('Onboarding adiado. Execute depois com npm run onboarding ou use nucleo-social-media no Codex.');
 }
 
 async function instalarHabilidades(diretorioDoProjeto, modoNaoInterativo) {
@@ -220,7 +209,7 @@ async function main() {
     const resultado = await gerarConfigVps({ diretorioRaiz: diretorioDoProjeto });
     console.log(`Arquivos de implantação gerados para revisão em ${resultado.destino}.`);
   }
-  await perguntarPerfil(diretorioDoProjeto);
+  if (!modoNaoInterativo) await oferecerOnboarding(diretorioDoProjeto);
   await instalarHabilidades(diretorioDoProjeto, modoNaoInterativo);
   await oferecerGuias(diretorioDoProjeto, modoNaoInterativo, escolha.modo);
   await executarDiagnostico(diretorioDoProjeto);

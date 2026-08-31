@@ -21,7 +21,7 @@ O comando verifica o ambiente, recomenda um perfil e pede que o usuário escolha
 - `local`: preview em `127.0.0.1` e Telegram enquanto o computador estiver ligado;
 - `servidor`: VPS com domínio HTTPS, preview protegido e processos persistentes.
 
-Ele cria `.env` apenas se ainda não existir, pergunta os dados iniciais e oferece a instalação das habilidades. Nenhum token é pedido ou exibido.
+Ele cria `.env` apenas se ainda não existir, oferece o onboarding estratégico completo e a instalação das habilidades. Nenhum token é pedido ou exibido.
 
 Também é possível escolher explicitamente:
 
@@ -37,6 +37,8 @@ npm run diagnosticar
 npm test
 ```
 
+O onboarding também pode ser retomado separadamente com `npm run onboarding`. Dentro do Codex, peça ao `nucleo-social-media` para conduzi-lo e coordenar os demais especialistas.
+
 `diagnosticar` apenas informa se os campos necessários estão preenchidos — ele não mostra valores de credenciais nem envia conteúdo para serviços externos.
 
 ## O que o projeto entrega
@@ -44,8 +46,8 @@ npm test
 - Estrutura local para conteúdo, recursos, saídas e prévias.
 - Modelos legíveis em Markdown para perfil, pilares, ideias e campanhas.
 - Guias de configuração manual da Meta e do Telegram.
-- Sete habilidades internas genéricas para usar com Codex.
-- Gerador de PNG 1080x1350 para carrossel, post individual e anúncio.
+- Sete habilidades especialistas com onboarding, estratégia, copy, direção de arte, integração, quality gates e handoffs.
+- Pipeline ImageGen no Codex para carrossel, post individual e anúncio, com fotos, logos, referências, normalização e fallback local.
 - Preview mobile, vitrine, fila auditável e publicação pela API oficial.
 - Aprovação por Telegram usando long polling, sem servidor público.
 - No modo servidor, preview com link temporário e URLs de mídia assinadas.

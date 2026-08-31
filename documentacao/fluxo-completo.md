@@ -2,9 +2,11 @@
 
 ## 1. Configurar
 
-Execute `npm run configurar`, escolha `local` ou `servidor`, revise `conteudos/perfil-da-marca.md` e ajuste `conteudos/identidade-visual.yml`. O `.env` permanece somente na instalação.
+Execute `npm run configurar`, escolha `local` ou `servidor` e conclua o onboarding estratégico. Ele pode ser retomado com `npm run onboarding` ou conduzido no Codex pelo `nucleo-social-media`. Revise o perfil, a identidade e os pilares. O `.env` permanece somente na instalação.
 
 ## 2. Criar artes e preview
+
+No fluxo premium, as habilidades visuais geram PNGs com ImageGen, fotos e referências autorizadas e registram os caminhos relativos no campo `imagens` do JSON. O comando normaliza, organiza e cria o preview. Sem `imagens`, o gerador local funciona como fallback explícito.
 
 Copie `exemplos/publicacao-exemplo.json`, altere o conteúdo e execute:
 

@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname, join, relative, resolve } from 'node:path';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { gerarHtml } from './criar-previa.mjs';
@@ -32,11 +32,27 @@ export async function criarConteudo(dados, diretorioRaiz = raiz) {
   if (!slugSeguro(dados.slug)) throw new Error('Use um slug com letras minúsculas, números e hífens.');
   if (!['carrossel', 'post-individual', 'post-anuncio'].includes(dados.tipo)) throw new Error('Tipo inválido.');
   if (!Array.isArray(dados.slides) || !dados.slides.length || dados.slides.length > 10) throw new Error('Informe de 1 a 10 slides.');
+  const imagensEntrada = Array.isArray(dados.imagens) ? dados.imagens : [];
+  if (imagensEntrada.length && imagensEntrada.length !== dados.slides.length) throw new Error('imagens e slides precisam ter a mesma quantidade.');
   const mapa = { carrossel: 'carrosseis', 'post-individual': 'posts-individuais', 'post-anuncio': 'posts-de-anuncio' };
   const pasta = join(diretorioRaiz, 'saidas', mapa[dados.tipo], dados.slug); await mkdir(pasta, { recursive: true });
   const identidade = await readFile(join(diretorioRaiz, 'conteudos', 'identidade-visual.yml'), 'utf8'); const cores = lerCores(identidade);
   const imagens = [];
-  for (let i = 0; i < dados.slides.length; i++) { const nome = `slide-${String(i + 1).padStart(2, '0')}.png`; const destino = join(pasta, nome); await sharp(Buffer.from(svgSlide({ ...dados.slides[i], indice: i + 1, total: dados.slides.length, cores }))).png().toFile(destino); imagens.push(destino); }
+  for (let i = 0; i < dados.slides.length; i++) {
+    const nome = `slide-${String(i + 1).padStart(2, '0')}.png`; const destino = join(pasta, nome);
+    if (imagensEntrada.length) {
+      const informado = String(imagensEntrada[i] || '');
+      if (!informado || isAbsolute(informado)) throw new Error('Use caminhos relativos para as imagens geradas.');
+      const origem = resolve(diretorioRaiz, informado);
+      const limite = `${resolve(diretorioRaiz)}${sep}`;
+      if (!origem.startsWith(limite)) throw new Error('Imagem fora do diretório do projeto.');
+      const png = await sharp(origem).resize(1080, 1350, { fit: 'contain', background: cores.fundo }).png().toBuffer();
+      await writeFile(destino, png);
+    } else {
+      await sharp(Buffer.from(svgSlide({ ...dados.slides[i], indice: i + 1, total: dados.slides.length, cores }))).png().toFile(destino);
+    }
+    imagens.push(destino);
+  }
   const id = String(dados.id || dados.slug).toUpperCase();
   const env = await lerEnv(join(diretorioRaiz, '.env'));
   let urlsPublicas = Array.isArray(dados.urlsPublicas) && dados.urlsPublicas.length ? dados.urlsPublicas : [];
@@ -53,5 +69,5 @@ export async function criarConteudo(dados, diretorioRaiz = raiz) {
   return publicacao;
 }
 
-async function main() { const entrada = opcao('--dados') || process.argv.slice(2).find((item)=>!item.startsWith('--')); if (!entrada) throw new Error('Uso: npm run criar-conteudo -- arquivo.json'); const dados = JSON.parse(await readFile(resolve(entrada), 'utf8')); const resultado = await criarConteudo(dados); console.log(`Conteúdo criado: ${resultado.imagens.length} PNG(s) em 1080x1350 e preview local.`); }
+async function main() { const entrada = opcao('--dados') || process.argv.slice(2).find((item)=>!item.startsWith('--')); if (!entrada) throw new Error('Uso: npm run criar-conteudo -- arquivo.json'); const dados = JSON.parse(await readFile(resolve(entrada), 'utf8')); const resultado = await criarConteudo(dados); console.log(`Conteúdo preparado: ${resultado.imagens.length} PNG(s) em 1080x1350 e preview local.`); }
 if (process.argv[1] === fileURLToPath(import.meta.url)) main().catch((erro) => { console.error(`Conteúdo não criado: ${erro.message}`); process.exitCode = 1; });

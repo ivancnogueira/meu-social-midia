@@ -9,6 +9,7 @@ const arquivos = [
   'INSTALAR-COM-CODEX.md',
   '.env.example',
   'automacoes/configurar.mjs',
+  'automacoes/onboarding.mjs',
   'automacoes/gerar-config-vps.mjs',
   'automacoes/lib/configuracao.mjs',
   'automacoes/diagnosticar.mjs',
@@ -25,10 +26,14 @@ const arquivos = [
   'conteudos/banco-de-ideias.md',
   'conteudos/campanhas.md',
   'conteudos/identidade-visual.yml',
+  'conteudos/estado-do-studio.yml',
   'templates/preview-instagram.html',
   'exemplos/publicacao-exemplo.json',
   'documentacao/configurar-meta.md',
   'documentacao/fluxo-completo.md',
+  'documentacao/agentes/contrato-operacional.md',
+  'documentacao/agentes/qualidade-editorial.md',
+  'documentacao/agentes/pipeline-visual.md',
   'documentacao/configurar-telegram.md',
   'documentacao/configurar-vps.md'
 ];
