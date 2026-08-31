@@ -1,5 +1,9 @@
 # Configurar Meta e Instagram
 
+## Tutorial em vídeo
+
+O instalador mostra e oferece abrir o tutorial oficial no YouTube quando `metaTutorialYoutubeUrl` estiver preenchido em `documentacao/links-oficiais.json`. Enquanto o link não estiver cadastrado, este documento permanece como orientação principal.
+
 Esta etapa é manual. O instalador não cria aplicativo, conta ou token em seu nome.
 
 ## Antes de começar

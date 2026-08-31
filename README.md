@@ -12,9 +12,15 @@ Em uma tarefa local do Codex, envie o prompt pronto de [INSTALAR-COM-CODEX.md](I
 
 ### Pelo terminal
 
-```powershell
-npm run configurar
+Copie e cole um único comando. Ele cria a pasta `meu-social-media`, baixa uma cópia limpa, instala as dependências e abre o assistente em português:
+
+```text
+npx --yes github:ivancnogueira/meu-social-midia instalar meu-social-media
 ```
+
+Não é necessário clonar, entrar na pasta ou executar `npm install` manualmente. O instalador interrompe sem sobrescrever se a pasta escolhida já contiver arquivos.
+
+Durante a integração com Instagram/Meta, o assistente mostra o tutorial oficial configurado em `documentacao/links-oficiais.json` e pergunta antes de abri-lo no YouTube. Enquanto o vídeo não estiver cadastrado, abre o guia local passo a passo.
 
 O comando verifica o ambiente, recomenda um perfil e pede que o usuário escolha:
 
@@ -23,12 +29,23 @@ O comando verifica o ambiente, recomenda um perfil e pede que o usuário escolha
 
 Ele cria `.env` apenas se ainda não existir, oferece o onboarding estratégico completo e a instalação das habilidades. Nenhum token é pedido ou exibido.
 
-Também é possível escolher explicitamente:
+Depois de instalado, também é possível reabrir a configuração dentro da pasta:
 
 ```powershell
 npm run configurar:local
 npm run configurar:servidor -- studio.exemplo.com
 ```
+
+<details>
+<summary>Instalação manual com Git</summary>
+
+```text
+git clone https://github.com/ivancnogueira/meu-social-midia.git
+cd meu-social-midia
+npm run configurar
+```
+
+</details>
 
 Em seguida, use:
 

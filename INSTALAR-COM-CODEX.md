@@ -32,4 +32,10 @@ Credenciais de Meta e Telegram devem ser preenchidas somente no `.env` local. O 
 
 ## Instalação manual continua disponível
 
-Quem preferir o terminal pode executar `npm run configurar`. Os dois caminhos usam os mesmos scripts e produzem a mesma estrutura.
+Quem preferir o terminal pode copiar um único comando, sem clonar ou trocar de pasta manualmente:
+
+```text
+npx --yes github:ivancnogueira/meu-social-midia instalar meu-social-media
+```
+
+O instalador cria uma distribuição limpa e chama os mesmos scripts usados pelo Codex.

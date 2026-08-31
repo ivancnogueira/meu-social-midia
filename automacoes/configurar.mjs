@@ -1,4 +1,4 @@
-import { access, copyFile, cp, mkdir } from 'node:fs/promises';
+import { access, copyFile, cp, mkdir, readFile } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { execFileSync, spawn } from 'node:child_process';
 import { homedir } from 'node:os';
@@ -173,19 +173,42 @@ async function instalarHabilidades(diretorioDoProjeto, modoNaoInterativo) {
   console.log(`${nomes.length} habilidades instaladas ou atualizadas no Codex.`);
 }
 
-function abrirGuia(caminho) {
-  const comando = process.platform === 'win32' ? 'cmd.exe' : process.platform === 'darwin' ? 'open' : 'xdg-open';
-  const args = process.platform === 'win32' ? ['/c', 'start', '', caminho] : [caminho];
+function abrirDestino(destino) {
+  const comando = process.platform === 'win32' ? 'explorer.exe' : process.platform === 'darwin' ? 'open' : 'xdg-open';
+  const args = [destino];
   const processo = spawn(comando, args, { detached: true, stdio: 'ignore' }); processo.unref();
+}
+
+export function tutorialMetaValido(valor) {
+  try {
+    const url = new URL(valor);
+    return url.protocol === 'https:' && ['youtube.com', 'www.youtube.com', 'youtu.be'].includes(url.hostname.toLowerCase());
+  } catch { return false; }
 }
 
 async function oferecerGuias(diretorioDoProjeto, modoNaoInterativo, modo) {
   if (modoNaoInterativo || !input.isTTY || !output.isTTY) return;
   const rl = createInterface({ input, output });
   try {
-    const guia = modo === 'servidor' ? 'configurar-vps.md' : 'configurar-meta.md';
-    const abrir = (await rl.question(`Abrir agora documentacao/${guia}? [s/N] `)).trim().toLowerCase();
-    if (['s', 'sim'].includes(abrir)) abrirGuia(join(diretorioDoProjeto, 'documentacao', guia));
+    if (modo === 'servidor') {
+      const abrirVps = (await rl.question('Abrir o guia de VPS agora? [s/N] ')).trim().toLowerCase();
+      if (['s', 'sim'].includes(abrirVps)) abrirDestino(join(diretorioDoProjeto, 'documentacao', 'configurar-vps.md'));
+    }
+
+    const configurarMeta = (await rl.question('Deseja preparar a integração Instagram/Meta agora? [s/N] ')).trim().toLowerCase();
+    if (!['s', 'sim'].includes(configurarMeta)) return;
+
+    const links = JSON.parse(await readFile(join(diretorioDoProjeto, 'documentacao', 'links-oficiais.json'), 'utf8'));
+    if (tutorialMetaValido(links.metaTutorialYoutubeUrl)) {
+      console.log(`Tutorial oficial: ${links.metaTutorialYoutubeUrl}`);
+      const abrirVideo = (await rl.question('Abrir o tutorial no YouTube agora? [S/n] ')).trim().toLowerCase();
+      if (!['n', 'nao', 'não'].includes(abrirVideo)) abrirDestino(links.metaTutorialYoutubeUrl);
+    } else {
+      console.log('O tutorial em vídeo ainda não foi cadastrado. O guia local será usado por enquanto.');
+    }
+
+    const abrirMeta = (await rl.question('Abrir também o guia passo a passo da Meta? [S/n] ')).trim().toLowerCase();
+    if (!['n', 'nao', 'não'].includes(abrirMeta)) abrirDestino(join(diretorioDoProjeto, 'documentacao', 'configurar-meta.md'));
   } finally { rl.close(); }
 }
 

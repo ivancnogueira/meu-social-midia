@@ -1,6 +1,6 @@
 {
   "name": "social-media-studio",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "private": true,
   "description": "Fundação local para planejar e preparar conteúdo de Instagram.",
   "type": "module",
@@ -11,6 +11,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "instalar:novo": "node automacoes/cli.mjs instalar",
     "configurar": "node automacoes/configurar.mjs",
     "onboarding": "node automacoes/onboarding.mjs",
     "configurar:local": "node automacoes/configurar.mjs --modo local",

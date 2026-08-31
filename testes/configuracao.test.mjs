@@ -4,6 +4,7 @@ import {
   atualizarEnvTexto, criarTokenMidia, criarTokenPreview, criarUrlMidia, criarUrlPreview,
   detectarAmbiente, normalizarUrlBase, validarTokenMidia, validarTokenPreview
 } from '../automacoes/lib/configuracao.mjs';
+import { tutorialMetaValido } from '../automacoes/configurar.mjs';
 
 test('normaliza domínio HTTPS e rejeita caminhos', () => {
   assert.equal(normalizarUrlBase('studio.exemplo.com'), 'https://studio.exemplo.com');
@@ -29,4 +30,12 @@ test('atualiza env preservando campos e gera links assinados', () => {
   assert.equal(validarTokenMidia(segredo, 'carrosseis/teste/slide-01.png', tokenMidia), true);
   assert.match(criarUrlMidia('https://studio.exemplo.com/midia', 'carrosseis/teste/slide-01.png', segredo), /^https:\/\/studio\.exemplo\.com\/midia\//);
   assert.match(criarUrlPreview({ base: 'https://studio.exemplo.com', slug: 'teste', segredo, agora: 1_900_000_000_000 }), /\/revisao\/teste\?token=/);
+});
+
+test('aceita somente tutorial HTTPS hospedado no YouTube', () => {
+  assert.equal(tutorialMetaValido('https://www.youtube.com/watch?v=teste'), true);
+  assert.equal(tutorialMetaValido('https://youtu.be/teste'), true);
+  assert.equal(tutorialMetaValido('http://youtube.com/watch?v=teste'), false);
+  assert.equal(tutorialMetaValido('https://exemplo.com/tutorial'), false);
+  assert.equal(tutorialMetaValido(''), false);
 });
