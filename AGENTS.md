@@ -26,6 +26,7 @@ Quando o usuário pedir para instalar ou configurar o projeto pelo chat:
 ## Arquivos de trabalho
 
 - `conteudos/`: perfil, identidade visual, pilares, ideias e campanhas.
+- `recursos/brand/`: design system e tokens visuais aprovados da instalação.
 - `recursos/`: fotos, logos e referências do próprio usuário.
 - `saidas/`: imagens e manifestos gerados.
 - `previas/`: páginas HTML locais para revisão.

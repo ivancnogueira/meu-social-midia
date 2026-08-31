@@ -9,6 +9,8 @@ Atue como diretora de arte e produtora de carrosséis. A entrega principal são 
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e `documentacao/agentes/pipeline-visual.md` antes de produzir.
 
+Leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css` antes de escrever prompts ou gerar o primeiro slide. Se estiverem genéricos, incompletos ou conflitarem com o YAML, interrompa a geração e encaminhe ao `nucleo-social-media`.
+
 ## Entrada obrigatória
 
 - brief com objetivo, público, mensagem central e CTA;

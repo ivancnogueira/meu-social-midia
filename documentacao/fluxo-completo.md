@@ -4,6 +4,8 @@
 
 Execute `npm run configurar`, escolha `local` ou `servidor` e conclua o onboarding estratégico. Ele pode ser retomado com `npm run onboarding` ou conduzido no Codex pelo `nucleo-social-media`. Revise o perfil, a identidade e os pilares. O `.env` permanece somente na instalação.
 
+Na identidade, `recursos/brand/design-system.md` registra as regras aprovadas, `recursos/brand/tokens.css` guarda valores exatos e `conteudos/identidade-visual.yml` conecta esses valores às automações. As habilidades visuais bloqueiam a geração quando essas fontes estão incompletas ou conflitantes.
+
 ## 2. Criar artes e preview
 
 No fluxo premium, as habilidades visuais geram PNGs com ImageGen, fotos e referências autorizadas e registram os caminhos relativos no campo `imagens` do JSON. O comando normaliza, organiza e cria o preview. Sem `imagens`, o gerador local funciona como fallback explícito.

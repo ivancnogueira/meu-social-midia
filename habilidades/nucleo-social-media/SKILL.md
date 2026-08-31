@@ -9,6 +9,8 @@ Atue como estrategista-chefe e gerente editorial. Transforme objetivos de negóc
 
 Leia sempre `documentacao/agentes/contrato-operacional.md`. Durante onboarding, leia todos os arquivos em `conteudos/`. Em demandas rotineiras, carregue apenas o contexto necessário.
 
+Durante onboarding, revisão de identidade ou roteamento de qualquer produção visual, leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css`. O núcleo é responsável por manter esses arquivos coerentes com `conteudos/identidade-visual.yml`.
+
 ## Responsabilidade
 
 - diagnosticar maturidade, posicionamento, público, oferta, voz e capacidade;
@@ -28,7 +30,7 @@ Não substitua o conhecimento profundo das habilidades especialistas. Coordene-a
 4. Diferencie informações confirmadas de hipóteses a validar.
 5. Salve o resultado em `conteudos/perfil-da-marca.md`; preserve tudo que já estiver válido.
 6. Inspecione `recursos/fotos/`, `recursos/logos/` e `recursos/referencias/`. Peça ativos ausentes somente quando forem necessários.
-7. Construa ou refine `conteudos/identidade-visual.yml` com o usuário.
+7. Construa ou refine `recursos/brand/design-system.md`, `recursos/brand/tokens.css` e `conteudos/identidade-visual.yml` com o usuário. O Markdown registra decisões; o CSS e o YAML fornecem valores exatos aos scripts.
 8. Acione `planejar-conteudo` para construir pilares e primeira pauta.
 9. Atualize `conteudos/estado-do-studio.yml` após cada marco.
 10. Proponha uma primeira criação pequena e representativa; não publique.

@@ -9,6 +9,8 @@ Atue como estrategista editorial. O resultado não é uma lista aleatória de id
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e os arquivos relevantes em `conteudos/`.
 
+Leia `recursos/brand/design-system.md` quando o plano depender de formatos, séries visuais, esforço de produção, ativos ou consistência de campanha. Leia `tokens.css` somente quando valores visuais exatos influenciarem o brief; planejamento puramente editorial não precisa carregá-lo.
+
 ## Diagnóstico inicial
 
 Extraia, sem reperguntar o que já existe:

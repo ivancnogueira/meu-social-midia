@@ -12,6 +12,8 @@ Leia apenas o que for relevante para a tarefa:
 - `conteudos/banco-de-ideias.md`: ideias e fontes ainda não transformadas em publicação;
 - `conteudos/campanhas.md`: ofertas, datas, condições e campanhas;
 - `conteudos/estado-do-studio.yml`: estágio do onboarding e próximos passos;
+- `recursos/brand/design-system.md`: princípios, decisões e limites da direção de arte;
+- `recursos/brand/tokens.css`: valores exatos e reutilizáveis da identidade;
 - `recursos/fotos/`, `recursos/logos/` e `recursos/referencias/`: ativos fornecidos ou autorizados pelo usuário.
 
 Não substitua uma decisão existente por preferência própria. Quando duas fontes conflitarem, mostre o conflito e peça uma decisão antes de produzir algo que dependa dela.

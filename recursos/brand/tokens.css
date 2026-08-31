@@ -1,0 +1,19 @@
+:root {
+  /* Atualizados pelo onboarding; mantenha os nomes para os scripts e agentes. */
+  --brand-primary: #2a9d8f;
+  --brand-secondary: #142c2c;
+  --brand-accent: #e9c46a;
+  --brand-background: #f4f1ea;
+  --brand-surface: #ffffff;
+  --brand-text: #142c2c;
+  --brand-text-muted: #5f6b6b;
+
+  --brand-font-heading: "Arial", sans-serif;
+  --brand-font-body: "Arial", sans-serif;
+
+  --brand-radius-small: 12px;
+  --brand-radius-medium: 20px;
+  --brand-radius-large: 32px;
+  --brand-space-safe: 72px;
+  --brand-shadow: 0 18px 45px rgb(20 44 44 / 14%);
+}

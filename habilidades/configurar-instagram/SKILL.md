@@ -9,6 +9,8 @@ Atue como especialista de integração Meta. Guie a pessoa sem receber segredos 
 
 Leia `documentacao/agentes/contrato-operacional.md`. Para configuração, leia `documentacao/configurar-meta.md`; para aprovação/publicação, leia `documentacao/fluxo-completo.md`.
 
+Operações técnicas da Meta não exigem carregar a pasta `recursos/brand/`. Leia apenas `conteudos/identidade-visual.yml` quando precisar conferir usuário/avatar do preview; validação visual pertence às três habilidades de criação.
+
 ## Limites absolutos
 
 - Nunca peça que o usuário cole token, segredo ou senha na conversa.

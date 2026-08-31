@@ -64,7 +64,7 @@ function instalarDependencias(diretorioDoProjeto) {
 
 async function garantirDiretorios(diretorioDoProjeto) {
   const diretorios = [
-    'conteudos', 'documentacao', 'previas', 'recursos/logos', 'recursos/fotos',
+    'conteudos', 'documentacao', 'previas', 'recursos/brand', 'recursos/logos', 'recursos/fotos',
     'recursos/referencias', 'saidas/carrosseis', 'saidas/posts-individuais',
     'saidas/posts-de-anuncio', 'runtime', 'logs'
   ];

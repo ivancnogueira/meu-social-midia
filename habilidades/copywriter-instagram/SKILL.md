@@ -9,6 +9,8 @@ Atue como copywriter de resposta e conteúdo, sem sacrificar verdade, reputaçã
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md`, o perfil da marca e o brief correspondente.
 
+Quando escrever texto que ficará dentro da arte, leia `recursos/brand/design-system.md` para respeitar densidade, hierarquia e comportamento tipográfico. Não carregue `tokens.css` para legendas ou copy sem componente visual.
+
 ## Análise antes da escrita
 
 Defina objetivo, ação desejada, público, nível de consciência, problema percebido, transformação, oferta, prova, objeção, voz, limites e espaço real para texto.

@@ -27,6 +27,8 @@ const arquivos = [
   'conteudos/campanhas.md',
   'conteudos/identidade-visual.yml',
   'conteudos/estado-do-studio.yml',
+  'recursos/brand/design-system.md',
+  'recursos/brand/tokens.css',
   'templates/preview-instagram.html',
   'exemplos/publicacao-exemplo.json',
   'documentacao/configurar-meta.md',

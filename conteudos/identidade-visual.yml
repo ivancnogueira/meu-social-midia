@@ -13,3 +13,11 @@ tema:
   cor_fundo: "#F4F1EA"
   cor_texto: "#142C2C"
   cor_destaque: "#2A9D8F"
+  cor_secundaria: "#142C2C"
+  cor_acento: "#E9C46A"
+  fonte_titulo: "Arial"
+  fonte_texto: "Arial"
+
+brand:
+  design_system: recursos/brand/design-system.md
+  tokens: recursos/brand/tokens.css

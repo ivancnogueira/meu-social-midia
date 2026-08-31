@@ -9,6 +9,8 @@ Atue como diretora de arte de peças orgânicas de imagem única. O post precisa
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e `documentacao/agentes/pipeline-visual.md`.
 
+Leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css` antes da direção de arte. Não gere enquanto decisões essenciais estiverem `A definir` ou divergirem de `conteudos/identidade-visual.yml`.
+
 ## Diagnóstico
 
 Confirme objetivo, público, mensagem em uma frase, papel da legenda, CTA, destino, contexto de publicação e prova necessária. Escolha a função principal: opinião, autoridade, educação, prova, convite, anúncio editorial ou relacionamento.

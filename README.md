@@ -39,6 +39,14 @@ npm test
 
 O onboarding também pode ser retomado separadamente com `npm run onboarding`. Dentro do Codex, peça ao `nucleo-social-media` para conduzi-lo e coordenar os demais especialistas.
 
+O onboarding visual mantém três camadas sincronizadas:
+
+- `recursos/brand/design-system.md`: decisões de direção de arte em linguagem humana;
+- `recursos/brand/tokens.css`: cores, fontes, espaçamentos e demais valores exatos;
+- `conteudos/identidade-visual.yml`: configuração estruturada consumida pelas automações e pelo preview.
+
+As três habilidades visuais sempre leem a pasta `brand`. Planejamento e copy a consultam quando a entrega envolve formato ou texto dentro da arte. A integração Meta não carrega contexto visual em operações puramente técnicas.
+
 `diagnosticar` apenas informa se os campos necessários estão preenchidos — ele não mostra valores de credenciais nem envia conteúdo para serviços externos.
 
 ## O que o projeto entrega
@@ -85,6 +93,7 @@ conteudos/       Perfil do negócio, pilares, ideias e campanhas
 documentacao/    Guias de configuração da Meta, Telegram, VPS e fluxo completo
 habilidades/     Habilidades internas que o instalador pode copiar ao Codex
 previas/         Galeria local de prévias geradas
+recursos/brand/  Design system e tokens visuais configurados no onboarding
 recursos/        Fotos, logos e referências fornecidas pelo próprio usuário
 saidas/          Artefatos gerados por tipo de publicação
 ```

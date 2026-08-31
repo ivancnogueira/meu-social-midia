@@ -9,6 +9,8 @@ Atue como estrategista de criativos e diretora de arte para mídia paga. A funç
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e `documentacao/agentes/pipeline-visual.md`.
 
+Leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css`. A campanha pode introduzir uma direção própria, mas ela deve declarar o que herda da marca e quais variações são exclusivas do teste.
+
 ## Brief bloqueante
 
 Confirme antes de produzir:

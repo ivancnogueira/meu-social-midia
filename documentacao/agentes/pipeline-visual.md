@@ -4,11 +4,12 @@ Use este pipeline em carrosséis, posts individuais e criativos de anúncio. A i
 
 ## Preflight obrigatório
 
-1. Leia `conteudos/identidade-visual.yml` e o perfil da marca.
+1. Leia `recursos/brand/design-system.md`, `recursos/brand/tokens.css`, `conteudos/identidade-visual.yml` e o perfil da marca.
 2. Liste `recursos/fotos/`, `recursos/logos/` e `recursos/referencias/` sem alterar nada.
 3. Inspecione visualmente apenas os ativos candidatos.
 4. Confirme objetivo, formato, copy aprovada, CTA, quantidade de peças e destino.
-5. Defina uma direção visual consistente antes de gerar a primeira imagem.
+5. Se o design system ainda contiver decisões essenciais como `A definir`, interrompa a produção e encaminhe ao `nucleo-social-media`.
+6. Defina uma direção visual consistente antes de gerar a primeira imagem.
 
 ## Decisão de fonte visual
 
