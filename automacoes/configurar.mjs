@@ -6,59 +6,49 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import { gerarConfigVps } from './gerar-config-vps.mjs';
+import { lerEnv } from './lib/arquivos.mjs';
+import { atualizarArquivoEnv, criarSegredo, detectarAmbiente, normalizarModo, normalizarUrlBase } from './lib/configuracao.mjs';
 
 const arquivoAtual = fileURLToPath(import.meta.url);
-const diretorioDoScript = dirname(arquivoAtual);
-const diretorioPadrao = resolve(diretorioDoScript, '..');
+const diretorioPadrao = resolve(dirname(arquivoAtual), '..');
 const argumentos = process.argv.slice(2);
 
 function valorDaOpcao(nome) {
   const indice = argumentos.indexOf(nome);
   if (indice === -1) return undefined;
   const valor = argumentos[indice + 1];
-  if (!valor || valor.startsWith('--')) {
-    throw new Error(`A opção ${nome} precisa de um caminho.`);
-  }
+  if (!valor || valor.startsWith('--')) throw new Error(`A opção ${nome} precisa de um valor.`);
   return valor;
 }
 
-function possui(nome) {
-  return argumentos.includes(nome);
-}
+function possui(nome) { return argumentos.includes(nome); }
 
 function mostrarAjuda() {
-  console.log(`Uso: npm run configurar -- [opções]
+  console.log(`Uso interativo: npm run configurar
+Atalhos: npm run configurar:local | npm run configurar:servidor -- DOMINIO
+Automação/Codex: node automacoes/configurar.mjs [opções]
 
 Opções:
-  --sem-interacao          Cria apenas o necessário, sem perguntas.
-  --sem-instalar           Não executa npm install.
-  --sem-habilidades        Não instala as habilidades no Codex.
-  --instalar-habilidades   Instala habilidades também no modo não interativo.
-  --destino-habilidades    Diretório alternativo para instalar habilidades.
-  --diretorio              Diretório do projeto (útil para testes locais).
-  --ajuda                  Mostra esta ajuda.`);
+  --modo local|servidor   Define explicitamente o perfil de execução.
+  --dominio DOMINIO       Domínio HTTPS usado no modo servidor.
+  --sem-interacao         Executa sem perguntas; usa local como padrão seguro.
+  --sem-instalar          Não executa npm install.
+  --sem-habilidades       Não instala as habilidades no Codex.
+  --instalar-habilidades  Autoriza habilidades no modo não interativo.
+  --destino-habilidades   Diretório alternativo das habilidades.
+  --diretorio DIRETORIO   Diretório do projeto, útil em validações.
+  --ajuda                 Mostra esta ajuda.`);
 }
 
 async function existe(caminho) {
-  try {
-    await access(caminho, constants.F_OK);
-    return true;
-  } catch {
-    return false;
-  }
+  try { await access(caminho, constants.F_OK); return true; } catch { return false; }
 }
 
 function verificarRuntime() {
   const versao = Number(process.versions.node.split('.')[0]);
-  if (!Number.isInteger(versao) || versao < 20) {
-    throw new Error('É necessário usar Node.js 20 ou superior. Instale ou atualize o Node.js e tente novamente.');
-  }
-
-  try {
-    execFileSync('git', ['--version'], { stdio: 'ignore' });
-  } catch {
-    throw new Error('Git não foi encontrado. Instale o Git e tente novamente.');
-  }
+  if (!Number.isInteger(versao) || versao < 20) throw new Error('É necessário usar Node.js 20 ou superior.');
+  try { execFileSync('git', ['--version'], { stdio: 'ignore' }); } catch { throw new Error('Git não foi encontrado.'); }
 }
 
 function instalarDependencias(diretorioDoProjeto) {
@@ -73,82 +63,92 @@ function instalarDependencias(diretorioDoProjeto) {
 
 async function garantirDiretorios(diretorioDoProjeto) {
   const diretorios = [
-    'conteudos',
-    'documentacao',
-    'previas',
-    'recursos/logos',
-    'recursos/fotos',
-    'recursos/referencias',
-    'saidas/carrosseis',
-    'saidas/posts-individuais',
-    'saidas/posts-de-anuncio',
-    'runtime',
-    'logs'
+    'conteudos', 'documentacao', 'previas', 'recursos/logos', 'recursos/fotos',
+    'recursos/referencias', 'saidas/carrosseis', 'saidas/posts-individuais',
+    'saidas/posts-de-anuncio', 'runtime', 'logs'
   ];
-
   await Promise.all(diretorios.map((pasta) => mkdir(join(diretorioDoProjeto, pasta), { recursive: true })));
 }
 
 async function criarEnvSeNecessario(diretorioDoProjeto) {
   const destino = join(diretorioDoProjeto, '.env');
   if (await existe(destino)) {
-    console.log('.env preservado: nenhuma configuração existente foi substituída.');
+    console.log('.env preservado: nenhuma credencial existente foi substituída.');
     return;
   }
-
   await copyFile(join(diretorioDoProjeto, '.env.example'), destino);
-  console.log('.env criado a partir de .env.example. Preencha-o somente no seu computador.');
+  console.log('.env criado a partir de .env.example. Preencha credenciais somente neste arquivo local.');
+}
+
+export async function escolherModo({ diretorioDoProjeto, modoNaoInterativo, terminalInterativo = input.isTTY && output.isTTY }) {
+  const env = await lerEnv(join(diretorioDoProjeto, '.env'));
+  const detectado = await detectarAmbiente();
+  const modoPosicional = argumentos.find((item) => ['local', 'servidor'].includes(String(item).toLowerCase()));
+  const explicito = valorDaOpcao('--modo') || modoPosicional;
+  let modo = explicito ? normalizarModo(explicito) : env.APP_MODE && ['local', 'servidor'].includes(env.APP_MODE) ? env.APP_MODE : undefined;
+
+  if (!explicito && !modoNaoInterativo && terminalInterativo) {
+    const padrao = modo || detectado.recomendacao;
+    const sinais = detectado.sinais.length ? ` (${detectado.sinais.join(', ')})` : '';
+    console.log(`\nAmbiente detectado: recomendação ${detectado.recomendacao}${sinais}.`);
+    console.log('1. Local — preview neste computador e Telegram enquanto ele estiver ligado.');
+    console.log('2. Servidor/VPS — domínio HTTPS e processos persistentes.');
+    const rl = createInterface({ input, output });
+    try {
+      const resposta = (await rl.question(`Escolha [1/2] (Enter = ${padrao}): `)).trim();
+      modo = resposta === '1' ? 'local' : resposta === '2' ? 'servidor' : padrao;
+    } finally { rl.close(); }
+  }
+  modo = normalizarModo(modo || 'local');
+
+  let base = '';
+  if (modo === 'servidor') {
+    const indiceModo = argumentos.findIndex((item) => String(item).toLowerCase() === modo);
+    const dominioPosicional = indiceModo >= 0 && argumentos[indiceModo + 1] && !argumentos[indiceModo + 1].startsWith('--') ? argumentos[indiceModo + 1] : '';
+    let dominio = valorDaOpcao('--dominio') || dominioPosicional || env.APP_BASE_URL;
+    if (!dominio && !modoNaoInterativo && terminalInterativo) {
+      const rl = createInterface({ input, output });
+      try { dominio = (await rl.question('Domínio ou URL HTTPS do Studio: ')).trim(); } finally { rl.close(); }
+    }
+    if (!dominio) throw new Error('O modo servidor exige --dominio ou APP_BASE_URL no .env.');
+    base = normalizarUrlBase(dominio);
+  }
+  return { modo, base, detectado, env };
+}
+
+async function salvarModo(diretorioDoProjeto, escolha) {
+  const env = escolha.env;
+  const valores = {
+    APP_MODE: escolha.modo,
+    APP_BASE_URL: escolha.base,
+    PREVIEW_HOST: '127.0.0.1',
+    PREVIEW_PORT: env.PREVIEW_PORT || '4173',
+    PREVIEW_TOKEN_TTL_HOURS: env.PREVIEW_TOKEN_TTL_HOURS || '168',
+    IMAGE_PUBLIC_BASE_URL: escolha.modo === 'servidor' ? `${escolha.base}/midia` : ''
+  };
+  if (escolha.modo === 'servidor') {
+    valores.PREVIEW_TOKEN_SECRET = env.PREVIEW_TOKEN_SECRET || criarSegredo();
+    valores.MEDIA_TOKEN_SECRET = env.MEDIA_TOKEN_SECRET || criarSegredo();
+  }
+  await atualizarArquivoEnv(join(diretorioDoProjeto, '.env'), valores);
+  console.log(`Modo ${escolha.modo} configurado${escolha.base ? ` para ${escolha.base}` : ''}.`);
 }
 
 function modeloPerfil({ nicho, publico, oferta, tom, cta }) {
-  return `# Perfil da marca
-
-Este arquivo descreve o negócio que será atendido. Atualize-o sempre que a estratégia mudar.
-
-## Negócio e nicho
-
-${nicho}
-
-## Público prioritário
-
-${publico}
-
-## Oferta principal
-
-${oferta}
-
-## Tom de voz
-
-${tom}
-
-## Chamada para ação preferida
-
-${cta}
-
-## Limites e cuidados
-
-- Não inventar preços, promessas, resultados, depoimentos ou informações reguladas.
-- Confirmar detalhes que não estejam definidos neste arquivo antes de usá-los em uma publicação.
-`;
+  return `# Perfil da marca\n\nEste arquivo descreve o negócio que será atendido. Atualize-o sempre que a estratégia mudar.\n\n## Negócio e nicho\n\n${nicho}\n\n## Público prioritário\n\n${publico}\n\n## Oferta principal\n\n${oferta}\n\n## Tom de voz\n\n${tom}\n\n## Chamada para ação preferida\n\n${cta}\n\n## Limites e cuidados\n\n- Não inventar preços, promessas, resultados, depoimentos ou informações reguladas.\n- Confirmar detalhes que não estejam definidos neste arquivo antes de usá-los em uma publicação.\n`;
 }
 
 async function perguntarPerfil(diretorioDoProjeto) {
+  if (!input.isTTY || !output.isTTY) return;
   const caminhoPerfil = join(diretorioDoProjeto, 'conteudos', 'perfil-da-marca.md');
   const atual = await readFile(caminhoPerfil, 'utf8');
   const ehModelo = atual.includes('<!-- social-media-studio: modelo-inicial -->');
-  const terminalInterativo = input.isTTY && output.isTTY;
-  if (!terminalInterativo) return;
-
   const rl = createInterface({ input, output });
   try {
     if (!ehModelo) {
       const atualizar = (await rl.question('Já existem dados de negócio. Atualizar o perfil? [s/N] ')).trim().toLowerCase();
-      if (!['s', 'sim'].includes(atualizar)) {
-        console.log('Perfil existente preservado.');
-        return;
-      }
+      if (!['s', 'sim'].includes(atualizar)) { console.log('Perfil existente preservado.'); return; }
     }
-
     console.log('\nResponda com o que já souber; "A definir" pode ser refinado depois.');
     const respostas = {
       nicho: (await rl.question('Nicho ou tipo de negócio: ')).trim() || 'A definir',
@@ -157,113 +157,77 @@ async function perguntarPerfil(diretorioDoProjeto) {
       tom: (await rl.question('Tom de voz: ')).trim() || 'A definir',
       cta: (await rl.question('CTA preferido: ')).trim() || 'A definir'
     };
-
     await writeFile(caminhoPerfil, modeloPerfil(respostas), 'utf8');
     console.log('Perfil inicial salvo em conteudos/perfil-da-marca.md.');
-  } finally {
-    rl.close();
-  }
+  } finally { rl.close(); }
 }
 
 async function instalarHabilidades(diretorioDoProjeto, modoNaoInterativo) {
   if (possui('--sem-habilidades')) return;
-
   let instalar = possui('--instalar-habilidades');
-  const terminalInterativo = input.isTTY && output.isTTY;
-  if (!instalar && !modoNaoInterativo && terminalInterativo) {
+  if (!instalar && !modoNaoInterativo && input.isTTY && output.isTTY) {
     const rl = createInterface({ input, output });
     try {
       const resposta = (await rl.question('Instalar ou atualizar as habilidades internas no Codex? [S/n] ')).trim().toLowerCase();
       instalar = !['n', 'nao', 'não'].includes(resposta);
-    } finally {
-      rl.close();
-    }
+    } finally { rl.close(); }
   }
-
-  if (!instalar) {
-    console.log('Habilidades não instaladas. Execute novamente e confirme quando quiser instalá-las.');
-    return;
-  }
-
-  const destino = resolve(
-    valorDaOpcao('--destino-habilidades')
-      ?? join(process.env.CODEX_HOME || join(homedir(), '.codex'), 'skills')
-  );
-  const origem = join(diretorioDoProjeto, 'habilidades');
-  const nomes = [
-    'nucleo-social-media',
-    'configurar-instagram',
-    'copywriter-instagram',
-    'criar-carrossel',
-    'criar-post-individual',
-    'criar-post-anuncio',
-    'planejar-conteudo'
-  ];
-
+  if (!instalar) { console.log('Habilidades não instaladas; é necessária autorização explícita.'); return; }
+  const destino = resolve(valorDaOpcao('--destino-habilidades') ?? join(process.env.CODEX_HOME || join(homedir(), '.codex'), 'skills'));
+  const nomes = ['nucleo-social-media', 'configurar-instagram', 'copywriter-instagram', 'criar-carrossel', 'criar-post-individual', 'criar-post-anuncio', 'planejar-conteudo'];
   await mkdir(destino, { recursive: true });
   for (const nome of nomes) {
-    const origemDaHabilidade = join(origem, nome);
-    if (!(await existe(join(origemDaHabilidade, 'SKILL.md')))) {
-      throw new Error(`Habilidade ausente ou inválida: ${nome}.`);
-    }
-    await cp(origemDaHabilidade, join(destino, nome), { recursive: true, force: true });
+    const origem = join(diretorioDoProjeto, 'habilidades', nome);
+    if (!(await existe(join(origem, 'SKILL.md')))) throw new Error(`Habilidade ausente ou inválida: ${nome}.`);
+    await cp(origem, join(destino, nome), { recursive: true, force: true });
   }
-  console.log(`${nomes.length} habilidades instaladas ou atualizadas em um diretório local do Codex.`);
+  console.log(`${nomes.length} habilidades instaladas ou atualizadas no Codex.`);
 }
 
 function abrirGuia(caminho) {
   const comando = process.platform === 'win32' ? 'cmd.exe' : process.platform === 'darwin' ? 'open' : 'xdg-open';
   const args = process.platform === 'win32' ? ['/c', 'start', '', caminho] : [caminho];
-  const processo = spawn(comando, args, { detached: true, stdio: 'ignore' });
-  processo.unref();
+  const processo = spawn(comando, args, { detached: true, stdio: 'ignore' }); processo.unref();
 }
 
-async function oferecerGuias(diretorioDoProjeto, modoNaoInterativo) {
+async function oferecerGuias(diretorioDoProjeto, modoNaoInterativo, modo) {
   if (modoNaoInterativo || !input.isTTY || !output.isTTY) return;
   const rl = createInterface({ input, output });
   try {
-    const abrirMeta = (await rl.question('Abrir agora o guia de configuração da Meta? [s/N] ')).trim().toLowerCase();
-    if (['s', 'sim'].includes(abrirMeta)) abrirGuia(join(diretorioDoProjeto, 'documentacao', 'configurar-meta.md'));
-
-    const abrirTelegram = (await rl.question('Abrir também o guia do Telegram? [s/N] ')).trim().toLowerCase();
-    if (['s', 'sim'].includes(abrirTelegram)) abrirGuia(join(diretorioDoProjeto, 'documentacao', 'configurar-telegram.md'));
-  } finally {
-    rl.close();
-  }
+    const guia = modo === 'servidor' ? 'configurar-vps.md' : 'configurar-meta.md';
+    const abrir = (await rl.question(`Abrir agora documentacao/${guia}? [s/N] `)).trim().toLowerCase();
+    if (['s', 'sim'].includes(abrir)) abrirGuia(join(diretorioDoProjeto, 'documentacao', guia));
+  } finally { rl.close(); }
 }
 
 async function executarDiagnostico(diretorioDoProjeto) {
-  console.log('\nDiagnóstico local:');
-  execFileSync(process.execPath, [join(diretorioDoProjeto, 'automacoes', 'diagnosticar.mjs')], {
-    cwd: diretorioDoProjeto,
-    stdio: 'inherit'
-  });
+  console.log('\nDiagnóstico:');
+  execFileSync(process.execPath, [join(diretorioDoProjeto, 'automacoes', 'diagnosticar.mjs'), '--diretorio', diretorioDoProjeto], { cwd: diretorioDoProjeto, stdio: 'inherit' });
 }
 
 async function main() {
-  if (possui('--ajuda')) {
-    mostrarAjuda();
-    return;
-  }
-
+  if (possui('--ajuda')) { mostrarAjuda(); return; }
   const diretorioDoProjeto = resolve(valorDaOpcao('--diretorio') ?? diretorioPadrao);
   const modoNaoInterativo = possui('--sem-interacao');
-  if (!(await existe(join(diretorioDoProjeto, 'package.json'))) || !(await existe(join(diretorioDoProjeto, '.env.example')))) {
-    throw new Error('O diretório informado não contém a estrutura esperada do Social Media Studio.');
-  }
-
+  if (!(await existe(join(diretorioDoProjeto, 'package.json'))) || !(await existe(join(diretorioDoProjeto, '.env.example')))) throw new Error('Diretório sem a estrutura esperada.');
   verificarRuntime();
   if (!possui('--sem-instalar')) instalarDependencias(diretorioDoProjeto);
   await garantirDiretorios(diretorioDoProjeto);
   await criarEnvSeNecessario(diretorioDoProjeto);
+  const escolha = await escolherModo({ diretorioDoProjeto, modoNaoInterativo });
+  await salvarModo(diretorioDoProjeto, escolha);
+  if (escolha.modo === 'servidor') {
+    const resultado = await gerarConfigVps({ diretorioRaiz: diretorioDoProjeto });
+    console.log(`Arquivos de implantação gerados para revisão em ${resultado.destino}.`);
+  }
   await perguntarPerfil(diretorioDoProjeto);
   await instalarHabilidades(diretorioDoProjeto, modoNaoInterativo);
-  await oferecerGuias(diretorioDoProjeto, modoNaoInterativo);
+  await oferecerGuias(diretorioDoProjeto, modoNaoInterativo, escolha.modo);
   await executarDiagnostico(diretorioDoProjeto);
-  console.log('\nConfiguração inicial concluída. Nenhuma publicação foi criada ou enviada.');
+  console.log('\nConfiguração concluída. Nenhuma publicação ou alteração de sistema foi executada.');
 }
 
-main().catch((erro) => {
+if (process.argv[1] === arquivoAtual) main().catch((erro) => {
   console.error(`Configuração interrompida: ${erro.message}`);
   process.exitCode = 1;
 });

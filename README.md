@@ -16,7 +16,19 @@ Em uma tarefa local do Codex, envie o prompt pronto de [INSTALAR-COM-CODEX.md](I
 npm run configurar
 ```
 
-O comando verifica o ambiente, instala as dependências declaradas, cria `.env` apenas se ele ainda não existir, pergunta os dados iniciais do negócio e oferece a instalação das habilidades internas do Codex. Nenhum token é pedido no terminal ou exibido em tela.
+O comando verifica o ambiente, recomenda um perfil e pede que o usuário escolha:
+
+- `local`: preview em `127.0.0.1` e Telegram enquanto o computador estiver ligado;
+- `servidor`: VPS com domínio HTTPS, preview protegido e processos persistentes.
+
+Ele cria `.env` apenas se ainda não existir, pergunta os dados iniciais e oferece a instalação das habilidades. Nenhum token é pedido ou exibido.
+
+Também é possível escolher explicitamente:
+
+```powershell
+npm run configurar:local
+npm run configurar:servidor -- studio.exemplo.com
+```
 
 Em seguida, use:
 
@@ -36,6 +48,7 @@ npm test
 - Gerador de PNG 1080x1350 para carrossel, post individual e anúncio.
 - Preview mobile, vitrine, fila auditável e publicação pela API oficial.
 - Aprovação por Telegram usando long polling, sem servidor público.
+- No modo servidor, preview com link temporário e URLs de mídia assinadas.
 - Instalador repetível que preserva `.env` e perfis já preenchidos.
 
 ## Preview genérico
@@ -58,6 +71,8 @@ npm run publicar-instagram -- saidas/carrosseis/demonstracao-removivel/publicaca
 
 Abra a vitrine local com `npm run preview` e visite `http://127.0.0.1:4173`.
 
+No modo servidor, siga [documentacao/configurar-vps.md](documentacao/configurar-vps.md). O Node continua restrito a `127.0.0.1`; Caddy publica somente as rotas controladas usando HTTPS.
+
 O fluxo de aprovação e publicação está explicado em `documentacao/fluxo-completo.md`. O teste local não exige credenciais e não publica nada.
 
 ## Estrutura principal
@@ -65,7 +80,7 @@ O fluxo de aprovação e publicação está explicado em `documentacao/fluxo-com
 ```text
 automacoes/      Criação, diagnóstico, aprovação, mensageria e publicação
 conteudos/       Perfil do negócio, pilares, ideias e campanhas
-documentacao/    Guias de configuração da Meta, Telegram e fluxo completo
+documentacao/    Guias de configuração da Meta, Telegram, VPS e fluxo completo
 habilidades/     Habilidades internas que o instalador pode copiar ao Codex
 previas/         Galeria local de prévias geradas
 recursos/        Fotos, logos e referências fornecidas pelo próprio usuário
@@ -77,6 +92,6 @@ saidas/          Artefatos gerados por tipo de publicação
 - O `.env` é local e ignorado pelo Git.
 - Nunca cole tokens em chats, argumentos de terminal ou documentos compartilhados.
 - Use apenas recursos que você tem autorização para utilizar.
-- A publicação futura exigirá identificação única, aprovação explícita e auditoria local.
+- A publicação exige identificação única, versão imutável, aprovação explícita e auditoria local.
 
 Leia [AGENTS.md](AGENTS.md) antes de instalar, configurar ou alterar o projeto com o Codex.

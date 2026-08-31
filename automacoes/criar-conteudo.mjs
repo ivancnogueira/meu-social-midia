@@ -1,9 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { gerarHtml } from './criar-previa.mjs';
-import { escreverJsonAtomico } from './lib/arquivos.mjs';
+import { escreverJsonAtomico, lerEnv } from './lib/arquivos.mjs';
+import { criarUrlMidia } from './lib/configuracao.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const opcao = (nome) => { const i = process.argv.indexOf(nome); return i < 0 ? undefined : process.argv[i + 1]; };
@@ -37,7 +38,13 @@ export async function criarConteudo(dados, diretorioRaiz = raiz) {
   const imagens = [];
   for (let i = 0; i < dados.slides.length; i++) { const nome = `slide-${String(i + 1).padStart(2, '0')}.png`; const destino = join(pasta, nome); await sharp(Buffer.from(svgSlide({ ...dados.slides[i], indice: i + 1, total: dados.slides.length, cores }))).png().toFile(destino); imagens.push(destino); }
   const id = String(dados.id || dados.slug).toUpperCase();
-  const publicacao = { id, slug: dados.slug, tipo: dados.tipo, titulo: dados.titulo || dados.slides[0].titulo, legenda: dados.legenda || '', imagens, urlsPublicas: dados.urlsPublicas || [], status: 'rascunho', criadoEm: new Date().toISOString() };
+  const env = await lerEnv(join(diretorioRaiz, '.env'));
+  let urlsPublicas = Array.isArray(dados.urlsPublicas) && dados.urlsPublicas.length ? dados.urlsPublicas : [];
+  if (!urlsPublicas.length && env.IMAGE_PUBLIC_BASE_URL) {
+    if (env.APP_MODE === 'servidor' && !env.MEDIA_TOKEN_SECRET) throw new Error('MEDIA_TOKEN_SECRET não configurado no modo servidor.');
+    urlsPublicas = imagens.map((imagem) => criarUrlMidia(env.IMAGE_PUBLIC_BASE_URL, relative(join(diretorioRaiz, 'saidas'), imagem), env.MEDIA_TOKEN_SECRET));
+  }
+  const publicacao = { id, slug: dados.slug, tipo: dados.tipo, titulo: dados.titulo || dados.slides[0].titulo, legenda: dados.legenda || '', imagens, urlsPublicas, status: 'rascunho', criadoEm: new Date().toISOString() };
   await escreverJsonAtomico(join(pasta, 'publicacao.json'), publicacao);
   const template = await readFile(join(diretorioRaiz, 'templates', 'preview-instagram.html'), 'utf8');
   const relativos = imagens.map((imagem) => ({ src: `../${imagem.slice(diretorioRaiz.length + 1).replaceAll('\\', '/')}`, alt: 'Arte da publicação' }));

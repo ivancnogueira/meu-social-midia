@@ -2,7 +2,7 @@
 
 ## 1. Configurar
 
-Execute `npm run configurar`, revise `conteudos/perfil-da-marca.md` e ajuste `conteudos/identidade-visual.yml`. O arquivo `.env` permanece somente no computador do usuário.
+Execute `npm run configurar`, escolha `local` ou `servidor`, revise `conteudos/perfil-da-marca.md` e ajuste `conteudos/identidade-visual.yml`. O `.env` permanece somente na instalação.
 
 ## 2. Criar artes e preview
 
@@ -21,7 +21,7 @@ O gerador cria PNGs 1080x1350, `publicacao.json`, um preview individual e a vitr
 npm run publicar-instagram -- caminho/publicacao.json
 ```
 
-O modo seco valida imagens e legenda, registra auditoria e não acessa serviços externos. Para uma publicação real, preencha `urlsPublicas` no manifesto com uma URL HTTPS por imagem. O projeto não incorpora um serviço secreto de hospedagem.
+O modo seco valida imagens e legenda, registra auditoria e não acessa serviços externos. No modo servidor, `urlsPublicas` é preenchido durante a geração usando o domínio e tokens de mídia. No modo local, informe uma URL HTTPS por imagem antes da publicação real.
 
 ## 4. Solicitar aprovação
 
@@ -29,7 +29,7 @@ O modo seco valida imagens e legenda, registra auditoria e não acessa serviços
 npm run aprovar:criar -- caminho/publicacao.json
 ```
 
-Isso cria `runtime/fila/CODIGO.json`. A aprovação deve vir do `chat_id` configurado no `.env`, pelo Telegram. Um job publicado ou cancelado não pode ser aprovado novamente.
+Isso cria `runtime/fila/CODIGO.json` com o fingerprint exato da versão. O Telegram envia slides, legenda, link protegido quando disponível e os botões. Se texto, URL ou arquivo mudar, crie uma nova solicitação.
 
 ## 5. Publicar um job aprovado
 

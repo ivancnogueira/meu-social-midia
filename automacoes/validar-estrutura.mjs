@@ -9,6 +9,8 @@ const arquivos = [
   'INSTALAR-COM-CODEX.md',
   '.env.example',
   'automacoes/configurar.mjs',
+  'automacoes/gerar-config-vps.mjs',
+  'automacoes/lib/configuracao.mjs',
   'automacoes/diagnosticar.mjs',
   'automacoes/criar-previa.mjs',
   'automacoes/criar-conteudo.mjs',
@@ -27,7 +29,8 @@ const arquivos = [
   'exemplos/publicacao-exemplo.json',
   'documentacao/configurar-meta.md',
   'documentacao/fluxo-completo.md',
-  'documentacao/configurar-telegram.md'
+  'documentacao/configurar-telegram.md',
+  'documentacao/configurar-vps.md'
 ];
 const habilidades = [
   'nucleo-social-media',

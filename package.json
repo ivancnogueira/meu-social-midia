@@ -1,6 +1,6 @@
 {
   "name": "social-media-studio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Fundação local para planejar e preparar conteúdo de Instagram.",
   "type": "module",
@@ -12,7 +12,10 @@
   },
   "scripts": {
     "configurar": "node automacoes/configurar.mjs",
+    "configurar:local": "node automacoes/configurar.mjs --modo local",
+    "configurar:servidor": "node automacoes/configurar.mjs --modo servidor",
     "diagnosticar": "node automacoes/diagnosticar.mjs",
+    "diagnosticar:vps": "node automacoes/diagnosticar.mjs --exigir-servidor --rede",
     "validar": "node automacoes/validar-estrutura.mjs",
     "test": "npm run validar && node --test testes/*.test.mjs",
     "criar-previa": "node automacoes/criar-previa.mjs",
@@ -23,7 +26,8 @@
     "publicar-instagram:aprovado": "node automacoes/publicar-instagram.mjs --publicar-aprovado",
     "aprovar:criar": "node automacoes/ponte-de-aprovacao.mjs --criar",
     "aprovar:listar": "node automacoes/ponte-de-aprovacao.mjs --listar",
-    "telegram": "node automacoes/robo-telegram.mjs"
+    "telegram": "node automacoes/robo-telegram.mjs",
+    "vps:gerar-config": "node automacoes/gerar-config-vps.mjs"
   },
   "dependencies": {
     "sharp": "^0.35.4"

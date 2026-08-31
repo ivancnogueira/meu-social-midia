@@ -14,12 +14,14 @@ Este repositório é uma ferramenta local e genérica de produção de conteúdo
 Quando o usuário pedir para instalar ou configurar o projeto pelo chat:
 
 1. verifique Node.js 20+ e Git;
-2. colete no chat somente dados não secretos do negócio;
-3. nunca solicite tokens no chat, em argumentos de terminal ou em logs;
-4. execute `npm run configurar` de forma repetível e preserve `.env` e conteúdos existentes;
-5. instale as habilidades de `habilidades/` fora do repositório somente com autorização explícita;
-6. conclua com `npm test` e `npm run diagnosticar`;
-7. não publique nem inicie integrações externas durante a instalação.
+2. detecte o ambiente apenas para recomendar e pergunte se o modo desejado é `local` ou `servidor`;
+3. no modo servidor, pergunte o domínio e confirme separadamente antes de instalar Caddy, serviços ou alterar firewall;
+4. colete no chat somente dados não secretos do negócio;
+5. nunca solicite tokens no chat, em argumentos de terminal ou em logs;
+6. execute `npm run configurar` de forma repetível e preserve `.env` e conteúdos existentes;
+7. instale as habilidades de `habilidades/` fora do repositório somente com autorização explícita;
+8. conclua com `npm test` e `npm run diagnosticar`; use `npm run diagnosticar:vps` somente quando o domínio já deva estar acessível;
+9. não publique nem inicie integrações externas durante a instalação.
 
 ## Arquivos de trabalho
 

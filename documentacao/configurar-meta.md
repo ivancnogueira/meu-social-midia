@@ -16,7 +16,7 @@ Esta etapa é manual. O instalador não cria aplicativo, conta ou token em seu n
 3. Gere o token conforme o fluxo oficial aplicável à sua conta e registre-o somente em `INSTAGRAM_ACCESS_TOKEN` no `.env`.
 4. Preencha também `META_API_VERSION`, `INSTAGRAM_BUSINESS_ID` e `FACEBOOK_PAGE_ID`.
 5. Execute `npm run diagnosticar`. O comando informa somente se os campos estão preenchidos; ele nunca mostra seus valores.
-6. Configure uma hospedagem HTTPS própria para as imagens que a Graph API precisa buscar e registre as URLs no manifesto da publicação. Nenhum provedor público é embutido pelo projeto.
+6. No modo local, configure uma hospedagem HTTPS própria para as imagens que a Graph API precisa buscar. No modo servidor, o domínio configurado gera automaticamente URLs assinadas para as imagens.
 
 ## Teste seguro
 
