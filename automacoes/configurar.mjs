@@ -8,6 +8,7 @@ import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { gerarConfigVps } from './gerar-config-vps.mjs';
 import { executarOnboarding } from './onboarding.mjs';
+import { mostrarStatusOnboarding } from './status-onboarding.mjs';
 import { lerEnv } from './lib/arquivos.mjs';
 import { atualizarArquivoEnv, criarSegredo, detectarAmbiente, normalizarModo, normalizarUrlBase } from './lib/configuracao.mjs';
 
@@ -92,7 +93,7 @@ export async function escolherModo({ diretorioDoProjeto, modoNaoInterativo, term
     const padrao = modo || detectado.recomendacao;
     const sinais = detectado.sinais.length ? ` (${detectado.sinais.join(', ')})` : '';
     console.log(`\nAmbiente detectado: recomendação ${detectado.recomendacao}${sinais}.`);
-    console.log('1. Local — preview neste computador e Telegram enquanto ele estiver ligado.');
+    console.log('1. Local — preview neste computador e GitHub Pages para URLs públicas; Telegram opcional.');
     console.log('2. Servidor/VPS — domínio HTTPS e processos persistentes.');
     const rl = createInterface({ input, output });
     try {
@@ -193,6 +194,9 @@ async function oferecerGuias(diretorioDoProjeto, modoNaoInterativo, modo) {
     if (modo === 'servidor') {
       const abrirVps = (await rl.question('Abrir o guia de VPS agora? [s/N] ')).trim().toLowerCase();
       if (['s', 'sim'].includes(abrirVps)) abrirDestino(join(diretorioDoProjeto, 'documentacao', 'configurar-vps.md'));
+    } else {
+      const abrirPages = (await rl.question('Abrir o guia do GitHub Pages para previews e primeira publicação? [S/n] ')).trim().toLowerCase();
+      if (!['n', 'nao', 'não'].includes(abrirPages)) abrirDestino(join(diretorioDoProjeto, 'documentacao', 'configurar-github-pages.md'));
     }
 
     const configurarMeta = (await rl.question('Deseja preparar a integração Instagram/Meta agora? [s/N] ')).trim().toLowerCase();
@@ -236,7 +240,8 @@ async function main() {
   await instalarHabilidades(diretorioDoProjeto, modoNaoInterativo);
   await oferecerGuias(diretorioDoProjeto, modoNaoInterativo, escolha.modo);
   await executarDiagnostico(diretorioDoProjeto);
-  console.log('\nConfiguração concluída. Nenhuma publicação ou alteração de sistema foi executada.');
+  await mostrarStatusOnboarding(diretorioDoProjeto);
+  console.log('\nNenhuma publicação ou alteração de sistema foi executada.');
 }
 
 if (process.argv[1] === arquivoAtual) main().catch((erro) => {

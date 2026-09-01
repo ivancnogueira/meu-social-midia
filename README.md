@@ -24,10 +24,16 @@ Durante a integração com Instagram/Meta, o assistente mostra o tutorial oficia
 
 O comando verifica o ambiente, recomenda um perfil e pede que o usuário escolha:
 
-- `local`: preview em `127.0.0.1` e Telegram enquanto o computador estiver ligado;
+- `local`: preview local, GitHub Pages para URLs públicas e Telegram opcional;
 - `servidor`: VPS com domínio HTTPS, preview protegido e processos persistentes.
 
 Ele cria `.env` apenas se ainda não existir, oferece o onboarding estratégico completo e a instalação das habilidades. Nenhum token é pedido ou exibido.
+
+No Codex, o onboarding é conduzido como um percurso visível de sete etapas e vai até a primeira publicação real. Ele configura perfil, identidade e pilares; cria briefing, copy, PNG 1080×1350, manifesto e preview de um post individual; conduz ajustes; configura a Meta; pede no chat a confirmação exata do job e publica pela API oficial. O agente informa o progresso em cada interação e só chama o Studio de instalado quando o resultado da publicação estiver registrado. Telegram é opcional.
+
+No modo local, a Meta ainda precisa conseguir baixar a imagem por uma URL HTTPS pública. O assistente deve configurar uma hospedagem autorizada ou pausar claramente nessa condição. No modo servidor, o domínio do Studio fornece as URLs assinadas.
+
+O caminho padrão no modo local é um repositório público separado no GitHub Pages, pertencente ao usuário. O produto permanece privado; apenas PNGs finais, previews e a vitrine são enviados. O token fine-grained fica no `.env`, limitado àquele repositório e à permissão `Contents: write`. Como o Pages é público, o assistente pede autorização antes do primeiro upload. Veja [documentacao/configurar-github-pages.md](documentacao/configurar-github-pages.md).
 
 Depois de instalado, também é possível reabrir a configuração dentro da pasta:
 
@@ -56,6 +62,12 @@ npm test
 
 O onboarding também pode ser retomado separadamente com `npm run onboarding`. Dentro do Codex, peça ao `nucleo-social-media` para conduzi-lo e coordenar os demais especialistas.
 
+Para consultar a qualquer momento a etapa pendente e a próxima ação concreta:
+
+```powershell
+npm run status
+```
+
 O onboarding visual mantém três camadas sincronizadas:
 
 - `recursos/brand/design-system.md`: decisões de direção de arte em linguagem humana;
@@ -70,11 +82,11 @@ As três habilidades visuais sempre leem a pasta `brand`. Planejamento e copy a 
 
 - Estrutura local para conteúdo, recursos, saídas e prévias.
 - Modelos legíveis em Markdown para perfil, pilares, ideias e campanhas.
-- Guias de configuração manual da Meta e do Telegram.
+- Guias de configuração da Meta, GitHub Pages e Telegram opcional.
 - Sete habilidades especialistas com onboarding, estratégia, copy, direção de arte, integração, quality gates e handoffs.
 - Pipeline ImageGen no Codex para carrossel, post individual e anúncio, com fotos, logos, referências, normalização e fallback local.
 - Preview mobile, vitrine, fila auditável e publicação pela API oficial.
-- Aprovação por Telegram usando long polling, sem servidor público.
+- Aprovação auditável diretamente no chat; Telegram por long polling como extensão opcional.
 - No modo servidor, preview com link temporário e URLs de mídia assinadas.
 - Instalador repetível que preserva `.env` e perfis já preenchidos.
 

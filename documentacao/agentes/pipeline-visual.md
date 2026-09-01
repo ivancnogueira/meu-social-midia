@@ -62,3 +62,5 @@ Se uma peça falhar, regenere ou corrija somente aquela peça. Preserve versões
 - Preview: `previas/{slug}.html` usando caminhos relativos para os PNGs.
 
 Depois, execute `npm run atualizar-vitrine`, faça revisão e somente então crie o job com `npm run aprovar:criar -- CAMINHO_PUBLICACAO`.
+
+No modo local, depois da autorização explícita para tornar a entrega pública, execute `npm run pages:publicar -- CAMINHO_PUBLICACAO`. Isso envia somente PNGs finais, preview e vitrine ao repositório público configurado e grava as URLs HTTPS no manifesto. Valide o preview público antes de criar o job, pois a inclusão das URLs altera o fingerprint da versão.

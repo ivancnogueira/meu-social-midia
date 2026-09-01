@@ -1,6 +1,6 @@
 # Preparar o Telegram para aprovação
 
-O Telegram é o primeiro canal de aprovação. O robô usa long polling e funciona enquanto o computador estiver ligado.
+O Telegram é um canal alternativo opcional de aprovação. O fluxo principal aprova o ID exato diretamente no chat do Codex. Se ativado, o robô usa long polling e funciona enquanto o computador estiver ligado.
 
 ## Preparação segura
 

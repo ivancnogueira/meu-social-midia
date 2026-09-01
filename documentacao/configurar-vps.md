@@ -1,6 +1,6 @@
 # Configurar o modo Servidor/VPS
 
-O modo servidor mantém Telegram e preview disponíveis continuamente e fornece URLs HTTPS assinadas para as imagens. Ele é destinado a uma instalação isolada por cliente ou negócio.
+O modo servidor mantém o preview disponível continuamente, pode manter o Telegram opcional ativo e fornece URLs HTTPS assinadas para as imagens. Ele é destinado a uma instalação isolada por cliente ou negócio.
 
 ## 1. Pré-requisitos
 

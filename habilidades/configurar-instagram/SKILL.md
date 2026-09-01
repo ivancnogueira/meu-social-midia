@@ -9,6 +9,8 @@ Atue como especialista de integração Meta. Guie a pessoa sem receber segredos 
 
 Leia `documentacao/agentes/contrato-operacional.md`. Para configuração, leia `documentacao/configurar-meta.md`; para aprovação/publicação, leia `documentacao/fluxo-completo.md`.
 
+No modo local, leia também `documentacao/configurar-github-pages.md`. GitHub Pages é a hospedagem pública padrão das imagens e previews; o repositório do produto continua separado e privado.
+
 Operações técnicas da Meta não exigem carregar a pasta `recursos/brand/`. Leia apenas `conteudos/identidade-visual.yml` quando precisar conferir usuário/avatar do preview; validação visual pertence às três habilidades de criação.
 
 ## Limites absolutos
@@ -60,6 +62,22 @@ Antes de qualquer chamada de escrita, confirme:
 Use primeiro `npm run publicar-instagram -- CAMINHO_PUBLICACAO` para dry-run. A publicação real usa `npm run publicar-instagram:aprovado -- CAMINHO_PUBLICACAO CAMINHO_JOB`.
 
 Depois, registre ID, permalink, horário e resultado sanitizado. Em falha, preserve o job conforme as regras do sistema e diagnostique sem revelar resposta que contenha segredo.
+
+## Primeira publicação do onboarding
+
+Quando chamada pelo `nucleo-social-media` na etapa final do onboarding:
+
+1. aceite somente um manifesto do tipo `post_individual` com uma única imagem `1080x1350` já aprovada no preview;
+2. conduza a configuração da Meta sem pedir segredos no chat; Telegram é opcional;
+3. confirme que a URL HTTPS da imagem é acessível externamente; `127.0.0.1` nunca atende esse requisito;
+4. no modo local, obtenha autorização para tornar os artefatos públicos e execute `npm run pages:publicar -- CAMINHO_PUBLICACAO`; nunca peça nem exiba o token;
+5. abra o preview público e confirme que a imagem está acessível antes de continuar;
+6. execute o dry-run;
+7. crie o job, mostre o ID e solicite no chat a resposta exata `APROVAR ID-DO-JOB`;
+8. aceite somente essa confirmação posterior ao job e execute `npm run aprovar:local -- ID-DO-JOB "APROVAR ID-DO-JOB"`;
+9. publique imediatamente o job que acabou de ser aprovado, registre `mediaId`/permalink e atualize o estado do onboarding.
+
+Sem qualquer uma dessas condições, devolva ao núcleo o estado `em_andamento` com a pendência concreta. A instalação do runtime pode estar concluída, mas o Studio ainda não deve ser chamado de instalado.
 
 ## Diagnóstico de falhas
 

@@ -9,10 +9,12 @@ const [comando = 'ajuda', ...args] = process.argv.slice(2);
 const comandos = {
   configurar: 'configurar.mjs',
   onboarding: 'onboarding.mjs',
+  status: 'status-onboarding.mjs',
   diagnosticar: 'diagnosticar.mjs',
   'criar-conteudo': 'criar-conteudo.mjs',
   'criar-previa': 'criar-previa.mjs',
   'atualizar-vitrine': 'atualizar-vitrine.mjs',
+  'pages-publicar': 'publicar-github-pages.mjs',
   aprovar: 'ponte-de-aprovacao.mjs',
   publicar: 'publicar-instagram.mjs',
   telegram: 'robo-telegram.mjs',
@@ -26,8 +28,8 @@ Instalação nova, guiada:
   social-media-studio instalar [pasta]
 
 Comandos dentro de um projeto:
-  configurar, onboarding, diagnosticar, criar-conteudo, criar-previa,
-  atualizar-vitrine, aprovar, publicar, telegram, vps-config`);
+  configurar, onboarding, status, diagnosticar, criar-conteudo, criar-previa,
+  atualizar-vitrine, pages-publicar, aprovar, publicar, telegram, vps-config`);
 }
 
 async function main() {

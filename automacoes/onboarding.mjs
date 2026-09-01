@@ -170,7 +170,9 @@ export async function executarOnboarding({ diretorioRaiz = raizPadrao, terminalI
   const rl = createInterface({ input, output });
   try {
     console.log('\nOnboarding estratégico do Social Media Studio');
+    console.log('Percurso: 1) ambiente  2) perfil  3) voz  4) identidade  5) pilares  6) primeiro post  7) aprovação e publicação.');
     console.log('Responda o que souber. Pressione Enter para preservar respostas existentes.\n');
+    console.log('Onboarding — etapas 2 e 3 de 7: perfil, estratégia e voz\n');
     const dados = {
       negocio: await perguntar(rl, 'Negócio, especialidade e nicho', extrairSecao(atual, 'Negócio e nicho')),
       publico: await perguntar(rl, 'Público prioritário', extrairSecao(atual, 'Público prioritário')),
@@ -187,7 +189,8 @@ export async function executarOnboarding({ diretorioRaiz = raizPadrao, terminalI
       limites: await perguntar(rl, 'Restrições, promessas proibidas ou cuidados', extrairSecao(atual, 'Limites e cuidados'))
     };
     await writeFile(caminho, montarPerfil(dados), 'utf8');
-    console.log('\nAgora vamos configurar a identidade visual reproduzível. Use cores hexadecimais, como #2a9d8f.\n');
+    console.log('\nOnboarding — etapa 4 de 7: identidade visual');
+    console.log('Agora vamos configurar uma direção reproduzível. Depois, o planejador criará pilares e o briefing do primeiro post. Use cores hexadecimais, como #2a9d8f.\n');
     const visual = {
       personalidade: await perguntar(rl, 'Personalidade visual', extrairCampo(designAtual, 'Personalidade')),
       sensacao: await perguntar(rl, 'Sensação que a marca deve transmitir', extrairCampo(designAtual, 'Sensação principal')),
@@ -218,8 +221,10 @@ export async function executarOnboarding({ diretorioRaiz = raizPadrao, terminalI
     await writeFile(caminhoDesign, montarDesignSystem(visual), 'utf8');
     await writeFile(join(diretorioRaiz, 'recursos', 'brand', 'tokens.css'), montarTokens(visual), 'utf8');
     await writeFile(join(diretorioRaiz, 'conteudos', 'identidade-visual.yml'), montarIdentidadeVisual({ ...visual, usuario, avatar }), 'utf8');
-    await writeFile(join(diretorioRaiz, 'conteudos', 'estado-do-studio.yml'), `versao: 1\nonboarding:\n  status: em_andamento\n  perfil: preenchido\n  identidade_visual: preenchida\n  pilares: pendente\n  integracao_instagram: opcional\nproducao:\n  ultimo_briefing:\n  proximo_passo: validar_pilares\n`, 'utf8');
-    console.log('\nPerfil e identidade visual salvos. Próximo passo: validar pilares com o nucleo-social-media.');
+    await writeFile(join(diretorioRaiz, 'conteudos', 'estado-do-studio.yml'), `versao: 2\nonboarding:\n  status: em_andamento\n  etapa_atual: pilares_e_pauta\n  perfil: preenchido\n  identidade_visual: preenchida\n  pilares: pendente\n  primeiro_briefing: pendente\n  primeiro_post: pendente\n  validacao_usuario: pendente\n  integracao_instagram: pendente\n  integracao_telegram: opcional\n  primeira_publicacao: pendente\nproducao:\n  ultimo_briefing:\n  proximo_passo: criar_pilares_e_primeiro_post\n`, 'utf8');
+    console.log('\nPerfil e identidade visual salvos.');
+    console.log('Onboarding ainda em andamento — etapa 5 de 7: pilares e primeira pauta.');
+    console.log('Próxima ação concreta: abra este projeto no Codex e peça ao nucleo-social-media para continuar o onboarding guiado. Ele criará os pilares e o primeiro post individual; depois pedirá a aprovação do job no chat e publicará na Meta.');
   } finally { rl.close(); }
 }
 

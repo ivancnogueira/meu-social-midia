@@ -16,6 +16,15 @@ export async function processarAcao({ diretorioRaiz = raiz, codigo, chatId, reme
   return alterarJob(diretorioRaiz, String(codigo).toUpperCase(), usuario, acao, observacao);
 }
 
+export async function aprovarNoChat({ diretorioRaiz = raiz, codigo, confirmacao }) {
+  const id = String(codigo || '').toUpperCase();
+  const esperado = `APROVAR ${id}`;
+  if (!id || String(confirmacao || '').trim().toUpperCase() !== esperado) {
+    throw new Error(`Confirmação inválida. Responda exatamente: ${esperado}`);
+  }
+  return alterarJob(diretorioRaiz, id, 'codex-chat-local', 'aprovar', 'Confirmação exata recebida no chat do projeto.');
+}
+
 async function main() {
   const pos = process.argv.slice(2).filter((item) => !item.startsWith('--'));
   if (process.argv.includes('--criar')) {
@@ -27,6 +36,14 @@ async function main() {
   }
   if (process.argv.includes('--listar')) {
     for (const job of await listarJobs(raiz, opcao('--status'))) console.log(`${job.id}: ${job.status}`);
+    return;
+  }
+  if (process.argv.includes('--aprovar-local')) {
+    const codigo = opcao('--codigo') || pos[0];
+    const confirmacao = opcao('--confirmacao') || pos[1];
+    if (!codigo || !confirmacao) throw new Error('Informe o ID e a confirmação exata APROVAR ID-DO-JOB.');
+    const job = await aprovarNoChat({ codigo, confirmacao });
+    console.log(`Tarefa ${job.id}: aprovada no chat e registrada para esta versão.`);
     return;
   }
   const acao = ['aprovar', 'ajuste', 'cancelar'].find((item) => process.argv.includes(`--${item}`));

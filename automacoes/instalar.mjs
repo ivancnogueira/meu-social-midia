@@ -1,4 +1,4 @@
-import { access, cp, mkdir, readdir } from 'node:fs/promises';
+import { access, copyFile, cp, mkdir, readdir } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { dirname, join, relative, resolve, sep } from 'node:path';
@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url';
 
 const raizDoPacote = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const itensDaDistribuicao = [
-  '.env.example', '.gitignore', 'AGENTS.md', 'INSTALAR-COM-CODEX.md', 'README.md',
-  'package.json', 'package-lock.json', 'automacoes', 'conteudos', 'documentacao',
+  '.env.example', 'AGENTS.md', 'INSTALAR-COM-CODEX.md', 'README.md',
+  'package.json', 'automacoes', 'conteudos', 'documentacao',
   'exemplos', 'habilidades', 'previas', 'recursos', 'saidas', 'templates', 'testes'
 ];
 
@@ -68,6 +68,7 @@ export async function instalarProjeto({
     if (!(await existe(fonte))) throw new Error(`Arquivo necessário ausente no instalador: ${item}`);
     await cp(fonte, join(destino, item), { recursive: true, force: false, filter: caminhoPermitido });
   }
+  await copyFile(join(raizResolvida, 'templates', 'gitignore.template'), join(destino, '.gitignore'));
 
   if (!executarConfiguracao) return { destino, configurado: false };
 
@@ -80,7 +81,8 @@ export async function instalarProjeto({
   if (resultado.error) throw resultado.error;
   if (resultado.status !== 0) throw new Error(`A configuração não terminou. Os arquivos foram preservados em ${destino}.`);
 
-  console.log(`\nInstalação concluída. Para voltar ao projeto depois:\ncd "${destino}"`);
+  console.log(`\nInstalação técnica concluída. O onboarding ainda deve seguir até a primeira publicação real.`);
+  console.log(`Para voltar ao projeto depois:\ncd "${destino}"\nnpm run status`);
   return { destino, configurado: true };
 }
 

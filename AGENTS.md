@@ -13,15 +13,21 @@ Este repositório é uma ferramenta local e genérica de produção de conteúdo
 
 Quando o usuário pedir para instalar ou configurar o projeto pelo chat:
 
+Leia e siga integralmente `documentacao/onboarding-guiado.md`. Trate a instalação como um único processo: mostre as sete etapas antes da primeira pergunta, exiba o progresso em cada interação e continue automaticamente para a etapa segura seguinte. Não encerre com “quer continuar?” nem com um próximo passo sem nome, resultado e responsável.
+
 1. verifique Node.js 20+ e Git;
 2. detecte o ambiente apenas para recomendar e pergunte se o modo desejado é `local` ou `servidor`;
 3. no modo servidor, pergunte o domínio e confirme separadamente antes de instalar Caddy, serviços ou alterar firewall;
-4. colete no chat somente dados não secretos do negócio;
-5. nunca solicite tokens no chat, em argumentos de terminal ou em logs;
-6. execute `npm run configurar` de forma repetível e preserve `.env` e conteúdos existentes;
-7. instale as habilidades de `habilidades/` fora do repositório somente com autorização explícita;
-8. conclua com `npm test` e `npm run diagnosticar`; use `npm run diagnosticar:vps` somente quando o domínio já deva estar acessível;
-9. não publique nem inicie integrações externas durante a instalação.
+4. execute `npm run configurar` de forma repetível e preserve `.env` e conteúdos existentes;
+5. instale as habilidades de `habilidades/` fora do repositório somente com autorização explícita;
+6. use `nucleo-social-media` para coletar somente dados não secretos e coordenar perfil, identidade, `planejar-conteudo`, pilares, primeiro briefing e um post individual completo;
+7. atualize `conteudos/estado-do-studio.yml` após cada marco e nunca marque `pronto` sem a validação do usuário;
+8. nunca solicite tokens no chat, em argumentos de terminal ou em logs;
+9. conclua com `npm test` e `npm run diagnosticar`; use `npm run diagnosticar:vps` somente quando o domínio já deva estar acessível;
+10. configure a Meta sem receber segredos no chat; no modo local, leia `documentacao/configurar-github-pages.md`, explique que os artefatos enviados serão públicos e obtenha autorização antes do upload; Telegram é uma extensão opcional;
+11. depois do preview revisado, crie um job único e peça no chat a confirmação exata `APROVAR ID-DO-JOB`; só então registre a aprovação local e publique esse primeiro post individual; nenhuma outra publicação é autorizada pela instalação.
+
+“Instalação técnica concluída” não significa “Studio instalado”. Se o onboarding estiver pendente, informe a etapa exata e prossiga no mesmo atendimento. Só encerre como instalado depois de a primeira publicação real estar registrada conforme `documentacao/onboarding-guiado.md`, ou como pausado se o usuário pedir para parar ou se faltar uma condição indispensável.
 
 ## Arquivos de trabalho
 
@@ -37,7 +43,7 @@ Quando o usuário pedir para instalar ou configurar o projeto pelo chat:
 - Credenciais ficam exclusivamente no `.env` local e nunca devem aparecer em respostas, logs ou commits.
 - A publicação exige identificador único, remetente autorizado, aprovação explícita e registro de auditoria.
 - Não considere respostas vagas como aprovação.
-- Use apenas a API oficial da Meta para Instagram e o bot do Telegram configurado pelo usuário.
+- Use apenas a API oficial da Meta para Instagram e, quando a extensão opcional estiver ativa, o bot do Telegram configurado pelo usuário.
 - Antes de uma ação externa, confirme que o usuário pediu a ação e que o job correto está aprovado.
 
 ## Habilidades internas

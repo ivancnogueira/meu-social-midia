@@ -1,5 +1,7 @@
 # Fluxo completo
 
+Durante a primeira instalação, este fluxo é obrigatório até o fim para um post individual: criação, preview, confirmação exata do job no chat e publicação na Meta. O Studio só recebe estado `pronto` depois de registrar o resultado dessa publicação. Nas publicações seguintes, cada job continua exigindo nova aprovação. Telegram é um canal alternativo opcional.
+
 ## 1. Configurar
 
 Execute `npm run configurar`, escolha `local` ou `servidor` e conclua o onboarding estratégico. Ele pode ser retomado com `npm run onboarding` ou conduzido no Codex pelo `nucleo-social-media`. Revise o perfil, a identidade e os pilares. O `.env` permanece somente na instalação.
@@ -27,13 +29,17 @@ npm run publicar-instagram -- caminho/publicacao.json
 
 O modo seco valida imagens e legenda, registra auditoria e não acessa serviços externos. No modo servidor, `urlsPublicas` é preenchido durante a geração usando o domínio e tokens de mídia. No modo local, informe uma URL HTTPS por imagem antes da publicação real.
 
+No modo local, o fluxo padrão é executar `npm run pages:publicar -- caminho/publicacao.json` depois da aprovação visual e antes de criar o job. O comando publica os artefatos autorizados no repositório de Pages do usuário e grava as URLs públicas no manifesto.
+
 ## 4. Solicitar aprovação
 
 ```powershell
 npm run aprovar:criar -- caminho/publicacao.json
 ```
 
-Isso cria `runtime/fila/CODIGO.json` com o fingerprint exato da versão. O Telegram envia slides, legenda, link protegido quando disponível e os botões. Se texto, URL ou arquivo mudar, crie uma nova solicitação.
+Isso cria `runtime/fila/CODIGO.json` com o fingerprint exato da versão.
+
+No fluxo principal pelo Codex, mostre o resumo e solicite no chat `APROVAR CODIGO`; depois execute `npm run aprovar:local -- CODIGO "APROVAR CODIGO"`. Telegram é uma alternativa opcional. Em ambos os canais, se texto, URL ou arquivo mudar, crie uma nova solicitação.
 
 ## 5. Publicar um job aprovado
 

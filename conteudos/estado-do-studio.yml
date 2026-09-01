@@ -1,10 +1,16 @@
-versao: 1
+versao: 2
 onboarding:
   status: nao_iniciado
+  etapa_atual: ambiente
   perfil: pendente
   identidade_visual: pendente
   pilares: pendente
-  integracao_instagram: opcional
+  primeiro_briefing: pendente
+  primeiro_post: pendente
+  validacao_usuario: pendente
+  integracao_instagram: pendente
+  integracao_telegram: opcional
+  primeira_publicacao: pendente
 producao:
   ultimo_briefing:
-  proximo_passo: concluir_onboarding
+  proximo_passo: escolher_modo

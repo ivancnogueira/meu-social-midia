@@ -12,6 +12,7 @@ const valor = (nome) => { const i = argumentos.indexOf(nome); return i < 0 ? und
 const diretorioDoProjeto = resolve(valor('--diretorio') || raizPadrao);
 const exigirMeta = argumentos.includes('--exigir-meta');
 const exigirServidor = argumentos.includes('--exigir-servidor');
+const exigirPages = argumentos.includes('--exigir-pages');
 const verificarRede = argumentos.includes('--rede');
 
 async function existe(caminho) {
@@ -97,6 +98,18 @@ async function main() {
   console.log(`- Modo: ${modo}`);
   if (modo === 'servidor') await diagnosticarServidor(env);
   else if (exigirServidor) { console.log('- Servidor/VPS: modo servidor não configurado'); process.exitCode = 1; }
+
+  if (modo === 'local') {
+    console.log('GitHub Pages:');
+    const pagesPronto = [
+      estadoCampo('GITHUB_PAGES_OWNER', env.get('GITHUB_PAGES_OWNER'), true),
+      estadoCampo('GITHUB_PAGES_REPO', env.get('GITHUB_PAGES_REPO'), true),
+      estadoCampo('GITHUB_PAGES_TOKEN', env.get('GITHUB_PAGES_TOKEN'), true)
+    ].every(Boolean);
+    console.log(`- GITHUB_PAGES_BRANCH: ${env.get('GITHUB_PAGES_BRANCH') || 'main (padrão)'}`);
+    if (!pagesPronto) console.log('GitHub Pages: siga documentacao/configurar-github-pages.md antes da primeira publicação.');
+    if (!pagesPronto && exigirPages) process.exitCode = 1;
+  }
 
   console.log('Meta / Instagram:');
   const metaPronta = [
