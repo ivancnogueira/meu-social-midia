@@ -29,7 +29,9 @@ O comando verifica o ambiente, recomenda um perfil e pede que o usuário escolha
 
 Ele cria `.env` apenas se ainda não existir, oferece o onboarding estratégico completo e a instalação das habilidades. Nenhum token é pedido ou exibido.
 
-No Codex, o onboarding é conduzido como um percurso visível de sete etapas e vai até a primeira publicação real. Ele configura perfil, identidade e pilares; cria briefing, copy, PNG 1080×1350, manifesto e preview de um post individual; conduz ajustes; configura a Meta; pede no chat a confirmação exata do job e publica pela API oficial. O agente informa o progresso em cada interação e só chama o Studio de instalado quando o resultado da publicação estiver registrado. Telegram é opcional.
+No Codex, o onboarding segue seis marcos e vai até a primeira publicação real: instalação, perfil, identidade visual, configurações, primeiro post com preview e postagem. Ele cria briefing, copy, PNG 1080×1350, manifesto e preview de um post individual; conduz ajustes; configura Meta e hospedagem; pede no chat a confirmação exata do job e publica pela API oficial. O agente informa o progresso em cada interação e só chama o Studio de instalado quando o resultado da publicação estiver registrado. A partir daí, o usuário pode chamar diretamente as habilidades de planejamento, criação, revisão e postagem. Telegram é opcional.
+
+Antes de criar a primeira arte, o onboarding exige fotos, logo, referências e confirmação de direitos de uso — ou uma decisão explícita e registrada de não utilizar cada elemento. Em seguida, apresenta conceito, ponto focal, composição, componentes, texto, CTA e selo para aprovação. “Pode sugerir” autoriza propostas estratégicas, mas não autoriza presumir ativos nem gerar uma arte genérica.
 
 No modo local, a Meta ainda precisa conseguir baixar a imagem por uma URL HTTPS pública. O assistente deve configurar uma hospedagem autorizada ou pausar claramente nessa condição. No modo servidor, o domínio do Studio fornece as URLs assinadas.
 
@@ -76,6 +78,8 @@ O onboarding visual mantém três camadas sincronizadas:
 
 As três habilidades visuais sempre leem a pasta `brand`. Planejamento e copy a consultam quando a entrega envolve formato ou texto dentro da arte. A integração Meta não carrega contexto visual em operações puramente técnicas.
 
+O arquivo `recursos/brand/briefing-visual.md` registra os ativos autorizados e a direção aprovada da primeira peça; `recursos/brand/brandbook.md` torna a estratégia visual legível e reutilizável. O onboarding pergunta se a pessoa já tem identidade ou quer criar uma. Na segunda rota, `criar-identidade-visual` prepara um wordmark SVG editável opcional, brandbook, design system e tokens para aprovação. Sem as cinco camadas — brandbook, briefing visual, design system, tokens e YAML — a geração do onboarding é bloqueada. Se ImageGen não estiver disponível, o fallback local só é oferecido com autorização e aplica essa direção; ele não é um atalho para pular a identidade.
+
 `diagnosticar` apenas informa se os campos necessários estão preenchidos — ele não mostra valores de credenciais nem envia conteúdo para serviços externos.
 
 ## O que o projeto entrega
@@ -83,7 +87,7 @@ As três habilidades visuais sempre leem a pasta `brand`. Planejamento e copy a 
 - Estrutura local para conteúdo, recursos, saídas e prévias.
 - Modelos legíveis em Markdown para perfil, pilares, ideias e campanhas.
 - Guias de configuração da Meta, GitHub Pages e Telegram opcional.
-- Sete habilidades especialistas com onboarding, estratégia, copy, direção de arte, integração, quality gates e handoffs.
+- Oito habilidades especialistas com onboarding, estratégia, identidade visual, copy, direção de arte, integração, quality gates e handoffs.
 - Pipeline ImageGen no Codex para carrossel, post individual e anúncio, com fotos, logos, referências, normalização e fallback local.
 - Preview mobile, vitrine, fila auditável e publicação pela API oficial.
 - Aprovação auditável diretamente no chat; Telegram por long polling como extensão opcional.

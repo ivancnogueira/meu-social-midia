@@ -1,6 +1,6 @@
 # Contrato operacional dos agentes
 
-Este contrato vale para as sete habilidades do Social Media Studio. Ele transforma cada habilidade em uma especialista com responsabilidade clara, memória persistente e critérios verificáveis.
+Este contrato vale para as oito habilidades do Social Media Studio. Ele transforma cada habilidade em uma especialista com responsabilidade clara, memória persistente e critérios verificáveis.
 
 ## Fontes de verdade
 

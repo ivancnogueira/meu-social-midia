@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { montarDesignSystem, montarIdentidadeVisual, montarPerfil, montarTokens } from '../automacoes/onboarding.mjs';
+import { montarBrandbook, montarBriefingVisual, montarDesignSystem, montarIdentidadeVisual, montarPerfil, montarTokens } from '../automacoes/onboarding.mjs';
 import { analisarEstadoOnboarding } from '../automacoes/status-onboarding.mjs';
 import { estadoAposPrimeiraPublicacao } from '../automacoes/lib/estado-onboarding.mjs';
 
@@ -16,16 +16,16 @@ test('onboarding produz perfil estratégico completo sem dados de cliente embuti
 });
 
 test('status não confunde instalação técnica com primeiro post concluído', () => {
-  const andamento = analisarEstadoOnboarding(`onboarding:\n  status: em_andamento\n  perfil: preenchido\n  identidade_visual: preenchida\n  pilares: validado\n  primeiro_briefing: preenchido\n  primeiro_post: pendente\n  validacao_usuario: pendente\n`);
+  const andamento = analisarEstadoOnboarding(`onboarding:\n  status: em_andamento\n  perfil: preenchido\n  ativos_visuais: validado\n  identidade_visual: validado\n  direcao_visual: validado\n  pilares: validado\n  primeiro_briefing: preenchido\n  primeiro_post: pendente\n  validacao_usuario: pendente\n`);
   assert.equal(andamento.pronto, false);
-  assert.equal(andamento.pendente.campo, 'primeiro_post');
+  assert.equal(andamento.pendente.campo, 'integracao_instagram');
 
-  const pronto = analisarEstadoOnboarding(`onboarding:\n  status: pronto\n  perfil: preenchido\n  identidade_visual: preenchida\n  pilares: validado\n  primeiro_briefing: preenchido\n  primeiro_post: aprovado\n  validacao_usuario: validado\n  integracao_instagram: configurado\n  primeira_publicacao: publicado\n`);
+  const pronto = analisarEstadoOnboarding(`onboarding:\n  status: pronto\n  perfil: preenchido\n  ativos_visuais: validado\n  identidade_visual: validado\n  direcao_visual: validado\n  pilares: validado\n  primeiro_briefing: preenchido\n  primeiro_post: aprovado\n  validacao_usuario: validado\n  integracao_instagram: configurado\n  primeira_publicacao: publicado\n`);
   assert.equal(pronto.pronto, true);
 });
 
 test('primeira publicação conclui somente onboarding com estratégia pronta', () => {
-  const base = `onboarding:\n  status: em_andamento\n  etapa_atual: primeira_publicacao\n  perfil: preenchido\n  identidade_visual: preenchida\n  pilares: validado\n  primeiro_briefing: preenchido\n  primeiro_post: pendente\n  validacao_usuario: pendente\n  integracao_instagram: pendente\n  integracao_telegram: opcional\n  primeira_publicacao: pendente\nproducao:\n  ultimo_briefing: BRIEF-001\n  proximo_passo: publicar\n`;
+  const base = `onboarding:\n  status: em_andamento\n  etapa_atual: primeira_publicacao\n  perfil: preenchido\n  ativos_visuais: validado\n  identidade_visual: validado\n  direcao_visual: validado\n  pilares: validado\n  primeiro_briefing: preenchido\n  primeiro_post: pendente\n  validacao_usuario: pendente\n  integracao_instagram: pendente\n  integracao_telegram: opcional\n  primeira_publicacao: pendente\nproducao:\n  ultimo_briefing: BRIEF-001\n  proximo_passo: publicar\n`;
   const atualizado = estadoAposPrimeiraPublicacao(base, { mediaId: 'media-1', permalink: 'https://instagram.example/p/1' });
   assert.match(atualizado, /status: pronto/);
   assert.match(atualizado, /primeira_publicacao: publicado/);
@@ -48,4 +48,9 @@ test('onboarding visual mantém design system, tokens e YAML coerentes', () => {
   assert.match(design, /recursos\/logos\/logo\.svg/);
   assert.match(tokens, /--brand-font-heading: "Inter"/);
   assert.match(yaml, /design_system: recursos\/brand\/design-system\.md/);
+  assert.match(yaml, /direitos_de_uso/);
+  const briefing = montarBriefingVisual({ fotos: 'Sem pessoa nesta peça', logo: 'Wordmark tipográfico aprovado', referencias: 'Direção original', direitos: 'Confirmados', conceito: 'Editorial', pontoFocal: 'Headline', estrutura: 'Painel', componentes: 'Linhas finas', textoArte: 'Mensagem', ctaVisual: 'Salvar', selo: 'Ideia prática' });
+  assert.match(briefing, /Selo editorial: Ideia prática/);
+  const brandbook = montarBrandbook({ ...visual, fotos: 'Sem pessoa', logo: 'Wordmark', referencias: 'Original', direitos: 'Confirmados', usuario: 'marca_teste' });
+  assert.match(brandbook, /Status: aprovado pelo usuário no onboarding/);
 });

@@ -21,3 +21,9 @@ tema:
 brand:
   design_system: recursos/brand/design-system.md
   tokens: recursos/brand/tokens.css
+
+recursos:
+  fotos: ""
+  logo: ""
+  referencias: ""
+  direitos_de_uso: ""

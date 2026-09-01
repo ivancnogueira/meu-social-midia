@@ -9,7 +9,7 @@ Atue como diretora de arte e produtora de carrosséis. A entrega principal são 
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e `documentacao/agentes/pipeline-visual.md` antes de produzir.
 
-Leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css` antes de escrever prompts ou gerar o primeiro slide. Se estiverem genéricos, incompletos ou conflitarem com o YAML, interrompa a geração e encaminhe ao `nucleo-social-media`.
+Leia obrigatoriamente `recursos/brand/brandbook.md`, `recursos/brand/design-system.md`, `recursos/brand/tokens.css` e `recursos/brand/briefing-visual.md` antes de escrever prompts ou gerar o primeiro slide. Se algum deles estiver genérico, incompleto, pendente ou conflitar com o YAML, interrompa a geração e encaminhe ao `nucleo-social-media`.
 
 ## Entrada obrigatória
 
@@ -64,6 +64,8 @@ Quando a pessoa for importante, use fotos autorizadas como referência para cria
 7. Salve cada resultado aceito em `saidas/carrosseis/{slug}/slide-XX.png`.
 
 Não troque silenciosamente para HTML, SVG ou canvas. Se ImageGen não estiver disponível, explique e ofereça o gerador local como fallback explícito.
+
+O fallback só é permitido depois de validar identidade, inventário de ativos e direção de arte. Cada slide precisa materializar os tokens, a hierarquia, o selo, os componentes, a continuidade e o CTA aprovados; se parecer uma fórmula genérica de texto sobre fundo, reprove e volte à direção. HTML continua sendo apenas preview.
 
 ## Quality gates por slide
 

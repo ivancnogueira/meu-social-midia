@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const concluidos = new Set(['preenchido', 'preenchida', 'validado', 'aprovado', 'configurado', 'publicado', 'pronto']);
-const obrigatorios = ['perfil', 'identidade_visual', 'pilares', 'primeiro_briefing', 'primeiro_post', 'validacao_usuario', 'integracao_instagram', 'primeira_publicacao'];
+const obrigatorios = ['perfil', 'ativos_visuais', 'identidade_visual', 'direcao_visual', 'pilares', 'primeiro_briefing', 'primeiro_post', 'validacao_usuario', 'integracao_instagram', 'primeira_publicacao'];
 
 function lerCampo(conteudo, campo) {
   return conteudo.match(new RegExp(`^ {2}${campo}:\\s*(.*?)\\s*$`, 'm'))?.[1]?.replace(/^['"]|['"]$/g, '') || '';

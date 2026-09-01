@@ -4,19 +4,19 @@ Use este pipeline em carrosséis, posts individuais e criativos de anúncio. A i
 
 ## Preflight obrigatório
 
-1. Leia `recursos/brand/design-system.md`, `recursos/brand/tokens.css`, `conteudos/identidade-visual.yml` e o perfil da marca.
-2. Liste `recursos/fotos/`, `recursos/logos/` e `recursos/referencias/` sem alterar nada.
+1. Leia `recursos/brand/brandbook.md`, `recursos/brand/design-system.md`, `recursos/brand/tokens.css`, `recursos/brand/briefing-visual.md`, `conteudos/identidade-visual.yml` e o perfil da marca.
+2. Liste `recursos/fotos/`, `recursos/logos/` e `recursos/referencias/` sem alterar nada e confirme cada decisão registrada no briefing visual.
 3. Inspecione visualmente apenas os ativos candidatos.
 4. Confirme objetivo, formato, copy aprovada, CTA, quantidade de peças e destino.
-5. Se o design system ainda contiver decisões essenciais como `A definir`, interrompa a produção e encaminhe ao `nucleo-social-media`.
-6. Defina uma direção visual consistente antes de gerar a primeira imagem.
+5. Se o design system, o briefing visual ou a direção da peça ainda contiverem decisões essenciais como `A definir` ou `pendente`, interrompa a produção e encaminhe ao `nucleo-social-media`.
+6. Defina uma direção visual consistente (conceito, ponto focal, estrutura, componentes, texto, CTA e selo) antes de gerar a primeira imagem.
 
 ## Decisão de fonte visual
 
 - **Pessoa real necessária:** use uma ou mais fotos autorizadas como referência. Pode criar nova composição, cenário ou tratamento, mas deve preservar a identidade.
 - **Fotografia existente já resolve:** edite ou componha a foto original; não gere outra pessoa.
 - **Pessoa não é necessária:** gere produto, objetos, ambiente, ilustração ou composição abstrata original.
-- **Sem ferramenta de imagem disponível:** informe a limitação e use o gerador local somente como fallback explícito.
+- **Sem ferramenta de imagem disponível:** informe a limitação e use o gerador local somente como fallback explícito, depois de confirmar identidade validada, direção aprovada e papel de cada ativo. O fallback deve aplicar os tokens e a composição definida; quando uma foto autorizada for o foco, passe seu caminho relativo como `fotoDestaque` para compô-la diretamente. Nunca entregue uma fórmula visual genérica como arte pronta.
 
 Não invente um rosto para representar o usuário. Se a semelhança falhar após tentativas direcionadas, use a foto original ou uma direção sem rosto.
 

@@ -3,7 +3,9 @@ onboarding:
   status: nao_iniciado
   etapa_atual: ambiente
   perfil: pendente
+  ativos_visuais: pendente
   identidade_visual: pendente
+  direcao_visual: pendente
   pilares: pendente
   primeiro_briefing: pendente
   primeiro_post: pendente

@@ -9,7 +9,7 @@ Atue como estrategista de criativos e diretora de arte para mídia paga. A funç
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e `documentacao/agentes/pipeline-visual.md`.
 
-Leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css`. A campanha pode introduzir uma direção própria, mas ela deve declarar o que herda da marca e quais variações são exclusivas do teste.
+Leia obrigatoriamente `recursos/brand/brandbook.md`, `recursos/brand/design-system.md`, `recursos/brand/tokens.css` e `recursos/brand/briefing-visual.md`. A campanha pode introduzir uma direção própria, mas ela deve declarar o que herda da marca e quais variações são exclusivas do teste. Pare se ativos, direitos ou decisões visuais ainda estiverem pendentes.
 
 ## Brief bloqueante
 
@@ -56,6 +56,8 @@ Inspecione fotos, produtos, logos e referências. Defina direção e gere com Im
 Para um lote, mantenha convenção clara:
 
 `saidas/posts-de-anuncio/{slug}/slide-01.png`, `slide-02.png` etc., com a hipótese de cada variante registrada no manifesto.
+
+Se ImageGen não estiver disponível, apresente a limitação e solicite autorização para o fallback local. O fallback só pode usar uma direção aprovada, tokens, componentes, hierarquia, CTA e logo autorizado; um card genérico de texto não é entrega aceitável.
 
 ## Quality gates
 

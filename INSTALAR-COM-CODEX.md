@@ -1,44 +1,34 @@
 # Instalação assistida pelo Codex
 
-É possível começar em uma tarefa local vazia do Codex. Envie este único prompt:
+Em uma tarefa local vazia, envie este prompt:
 
 ```text
-Instale o Social Media Studio a partir de https://github.com/ivancnogueira/meu-social-midia.git em uma nova pasta meu-social-midia dentro do diretório de trabalho atual. Depois do clone, leia integralmente AGENTS.md, README.md, INSTALAR-COM-CODEX.md, documentacao/onboarding-guiado.md e documentacao/configurar-github-pages.md e faça a instalação assistida completa. Você está autorizado a instalar as dependências npm e a instalar ou atualizar as habilidades internas deste repositório no diretório local de skills do Codex. Trate toda a instalação e o onboarding como um único processo: antes da primeira pergunta, mostre as sete etapas; em cada resposta, informe etapa e progresso; avance automaticamente entre as etapas seguras já autorizadas; nunca termine perguntando apenas se quero ir ao próximo passo. Verifique Node.js e Git, detecte o ambiente apenas para recomendar e pergunte se desejo o modo local ou servidor/VPS. No modo servidor, pergunte o domínio e gere os arquivos de implantação, mas peça autorização separada antes de instalar software do sistema, serviços ou alterar firewall. Preserve qualquer configuração existente. Use nucleo-social-media para conduzir o perfil e a identidade, planejar-conteudo para pilares e briefing, copywriter-instagram e criar-post-individual para produzir o primeiro post 1080x1350, manifesto e preview. Mostre o preview e aplique os ajustes. No modo local, ajude-me a criar um repositório público separado no GitHub Pages e um token fine-grained limitado somente a ele com Contents: write; avise que PNG, preview e vitrine ficarão públicos, peça autorização antes do upload e oriente-me a preencher o token apenas no .env. Envie os artefatos com npm run pages:publicar, valide as URLs HTTPS e então configure a Meta, faça dry-run e crie um job único. Mostre o ID e peça que eu responda exatamente APROVAR ID-DO-JOB; somente depois dessa mensagem registre a aprovação local auditável e publique esse post pela API oficial. Telegram é opcional. Atualize conteudos/estado-do-studio.yml após cada marco. Nunca peça tokens no chat. Só declare o Studio instalado depois de registrar mediaId/permalink, diagnóstico e testes; se precisar de uma resposta ou configuração, diga exatamente o que acontecerá depois dela.
+Instale o Social Media Studio a partir de https://github.com/ivancnogueira/meu-social-midia.git em uma nova pasta meu-social-midia no diretório de trabalho atual. Depois do clone, leia integralmente AGENTS.md, README.md, INSTALAR-COM-CODEX.md, documentacao/onboarding-guiado.md e documentacao/configurar-github-pages.md. Você está autorizado a instalar dependências npm e as habilidades internas deste repositório no diretório local de skills do Codex. Conduza a instalação e o onboarding como um único processo, sem encerrar entre etapas. Antes da primeira pergunta, mostre estes seis marcos: 1) Instalação, 2) Perfil, 3) Identidade visual, 4) Configurações, 5) Primeiro post e preview, 6) Postagem. Em cada interação, mostre marco, progresso, decisão atual e resultado seguinte; nunca termine apenas perguntando se quero continuar.
+
+Verifique Node.js e Git, recomende local ou servidor/VPS e peça minha escolha. No servidor, pergunte domínio e gere os arquivos, mas peça autorização separada antes de instalar software do sistema, serviços ou alterar firewall. Preserve configurações existentes e nunca peça tokens no chat.
+
+No marco Perfil, use nucleo-social-media para registrar negócio, público, oferta, posicionamento, voz, objetivos e restrições. No marco Identidade visual, pergunte se já tenho identidade ou quero criar uma. Faça inventário de fotos, logo, referências e direitos de uso, exigindo ativo ou decisão explícita de não uso. Se eu quiser criar, acione criar-identidade-visual para produzir uma proposta de wordmark SVG editável opcional, brandbook, design system, tokens e YAML; não avance sem minha aprovação explícita da direção. “Pode sugerir” permite propor estratégia, nunca presumir ativos.
+
+No marco Configurações, antes de criar conteúdo, oriente a criação do app Meta, do repositório público separado de GitHub Pages no modo local ou do domínio HTTPS no servidor, e o preenchimento exclusivo no .env local de cada credencial. Explique que PNG, preview e vitrine do Pages serão públicos, peça autorização antes do primeiro upload e valide npm run diagnosticar. Telegram é opcional.
+
+No marco Primeiro post, use planejar-conteudo, copywriter-instagram e criar-post-individual para produzir um post único 1080x1350, manifesto e preview. Use ImageGen e ativos autorizados. Sem ImageGen, explique a limitação e peça autorização para fallback local que aplique a identidade aprovada; recuse peça genérica. Mostre o preview e aplique os ajustes. Depois da aprovação visual e da autorização específica para upload, publique a entrega no Pages ou domínio e valide as URLs HTTPS.
+
+No marco Postagem, faça dry-run, crie um job único e peça no chat a confirmação exata APROVAR ID-DO-JOB. Só após essa resposta registre a aprovação local e publique esse primeiro post pela API oficial. Atualize conteudos/estado-do-studio.yml após cada marco, execute npm test e npm run diagnosticar e só declare o Studio instalado com mediaId/permalink registrados. Depois disso, encerre o onboarding e informe que novas demandas devem chamar diretamente as habilidades de planejamento, criação, revisão ou postagem.
 ```
 
-Se o repositório já estiver clonado, abra a pasta como projeto local no Codex e use a versão curta:
+Se o repositório já estiver clonado, abra a pasta no Codex e envie o mesmo prompt sem a frase “a partir de … em uma nova pasta”.
 
-```text
-Leia integralmente AGENTS.md, README.md, INSTALAR-COM-CODEX.md, documentacao/onboarding-guiado.md e documentacao/configurar-github-pages.md. Faça a instalação assistida completa deste Social Media Studio como um único processo. Você está autorizado a instalar ou atualizar as habilidades internas deste repositório no diretório local de skills do Codex. Mostre as sete etapas antes da primeira pergunta, informe o progresso em cada interação e avance automaticamente entre etapas seguras; nunca pergunte apenas se quero ir ao próximo passo. Verifique Node.js e Git, pergunte se desejo o modo local ou servidor/VPS e, no modo servidor, pergunte o domínio. Preserve configurações existentes. Use nucleo-social-media para o perfil e a identidade, planejar-conteudo para pilares e briefing, copywriter-instagram e criar-post-individual para criar o primeiro post 1080x1350, manifesto e preview. Mostre o preview e aplique ajustes. No modo local, conduza a criação de um repositório público separado no GitHub Pages e de um token fine-grained limitado a ele com Contents: write; avise que os artefatos ficarão públicos, peça autorização antes do upload e nunca receba o token no chat. Execute pages:publicar, valide as URLs HTTPS, configure a Meta, faça dry-run e crie o job. Mostre o ID e peça minha resposta exata APROVAR ID-DO-JOB; somente depois registre a aprovação local auditável e publique esse post. Telegram é opcional. Atualize o estado após cada marco e execute diagnóstico e testes. Só declare o Studio instalado quando mediaId/permalink estiverem registrados; se houver pendência, informe a etapa, a pergunta e o resultado seguinte.
-```
+## Comportamento obrigatório
 
-## O que o Codex deve fazer
-
-1. Ler as instruções, `documentacao/onboarding-guiado.md` e conferir se está na raiz correta do projeto.
-2. Verificar Node.js 20+ e Git.
-3. Mostrar as sete etapas e perguntar se a operação será local ou em servidor; a detecção é somente uma recomendação.
-4. Conduzir perfil, voz e identidade em blocos curtos, sempre identificando etapa, progresso e próximo resultado.
-5. Executar `npm run configurar` ou, no modo não interativo, chamar diretamente `node automacoes/configurar.mjs --sem-interacao --modo MODO` com o domínio quando necessário.
-6. Instalar as sete habilidades internas somente porque o prompt acima concede autorização explícita.
-7. Acionar `planejar-conteudo`, propor três a cinco pilares, gerar a primeira pauta e montar um briefing executável.
-8. Acionar `copywriter-instagram` e `criar-post-individual`, gerar PNG final 1080×1350, manifesto e preview, mostrar o resultado e aplicar ajustes até a aprovação visual.
-9. Atualizar os arquivos em `conteudos/` sem sobrescrever respostas existentes sem confirmação e registrar cada marco em `estado-do-studio.yml`.
-10. No modo local, configurar o repositório público de Pages, obter autorização antes do upload, executar `pages:publicar` e validar as URLs HTTPS; no servidor, validar as URLs do domínio.
-11. Conduzir Meta, fazer dry-run, criar o job e pedir no chat a confirmação exata `APROVAR ID-DO-JOB`.
-12. Registrar a aprovação local auditável e publicar somente esse primeiro post pela API oficial. Telegram é opcional.
-13. Executar `npm test` e `npm run diagnosticar`.
-14. No modo servidor, gerar os artefatos de VPS e explicar a etapa de DNS/HTTPS sem aplicá-la silenciosamente.
-15. Encerrar somente com o caminho do post e o resultado registrado da primeira publicação.
-
-Node.js 20+ e Git precisam estar disponíveis no computador. Se algum deles estiver ausente, o Codex deve interromper a configuração e explicar o pré-requisito; instalação de software do sistema exige autorização separada.
-
-## Credenciais
-
-Credenciais de Meta, GitHub Pages e do Telegram opcional devem ser preenchidas somente no `.env` local. O Codex pode explicar os campos e validar se estão presentes, mas não deve solicitar que o usuário cole tokens no chat.
+1. Instalar somente dependências e habilidades autorizadas no prompt.
+2. Preservar `.env`, conteúdos e ativos existentes.
+3. Nunca receber, exibir ou registrar tokens no chat, em comandos ou em commits.
+4. Tratar a publicação como operação separada: preview aprovado não publica; somente o job identificado e aprovado por `APROVAR ID-DO-JOB` publica.
+5. Encerrar o onboarding apenas após a primeira publicação real. Depois disso, rotear novos pedidos para a habilidade especialista, sem repetir a instalação.
 
 ## Instalação manual continua disponível
 
-Quem preferir o terminal pode copiar um único comando, sem clonar ou trocar de pasta manualmente:
+Quem preferir o terminal pode copiar um único comando:
 
 ```text
 npx --yes github:ivancnogueira/meu-social-midia instalar meu-social-media

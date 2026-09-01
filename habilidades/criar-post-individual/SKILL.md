@@ -9,7 +9,7 @@ Atue como diretora de arte de peças orgânicas de imagem única. O post precisa
 
 Leia `documentacao/agentes/contrato-operacional.md`, `documentacao/agentes/qualidade-editorial.md` e `documentacao/agentes/pipeline-visual.md`.
 
-Leia obrigatoriamente `recursos/brand/design-system.md` e `recursos/brand/tokens.css` antes da direção de arte. Não gere enquanto decisões essenciais estiverem `A definir` ou divergirem de `conteudos/identidade-visual.yml`.
+Leia obrigatoriamente `recursos/brand/brandbook.md`, `recursos/brand/design-system.md`, `recursos/brand/tokens.css` e `recursos/brand/briefing-visual.md` antes da direção de arte. Não gere enquanto decisões essenciais estiverem `A definir`, `pendente` ou divergirem de `conteudos/identidade-visual.yml`.
 
 ## Diagnóstico
 
@@ -39,7 +39,7 @@ Use foto real quando reconhecimento, autoridade ou produto real forem importante
 6. Salve em `saidas/posts-individuais/{slug}/slide-01.png`.
 7. Normalize para `1080x1350` sem cortar elementos importantes.
 
-O gerador local é fallback, não padrão. HTML serve somente para preview.
+O gerador local é fallback, não padrão. Ele só pode ser usado depois de identidade validada e direção visual aprovada; deve aplicar tokens, composição, selo, CTA visual e logo autorizado quando houver. Quando a pessoa ou o produto for o foco e houver foto autorizada, entregue o caminho relativo em `fotoDestaque` para que ela seja composta diretamente em vez de descartada. Se a peça resultante parecer uma fórmula genérica de texto sobre fundo, reprove-a e volte para a direção visual. HTML serve somente para preview.
 
 ## Quality gates
 
