@@ -10,7 +10,7 @@ test('instalador cria distribuição limpa sem segredo ou artefatos de usuário'
   try {
     const resultado = await instalarProjeto({ args: ['studio-teste', '--sem-configurar'], diretorioAtual: base });
     const pacote = JSON.parse(await readFile(join(resultado.destino, 'package.json'), 'utf8'));
-    assert.equal(pacote.version, '0.7.0');
+    assert.equal(pacote.version, '0.8.0');
     await access(join(resultado.destino, 'recursos', 'brand', 'design-system.md'));
     await access(join(resultado.destino, 'recursos', 'brand', 'brandbook.md'));
     await access(join(resultado.destino, '.gitignore'));

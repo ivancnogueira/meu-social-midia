@@ -16,7 +16,7 @@ Use este pipeline em carrosséis, posts individuais e criativos de anúncio. A i
 - **Pessoa real necessária:** use uma ou mais fotos autorizadas como referência. Pode criar nova composição, cenário ou tratamento, mas deve preservar a identidade.
 - **Fotografia existente já resolve:** edite ou componha a foto original; não gere outra pessoa.
 - **Pessoa não é necessária:** gere produto, objetos, ambiente, ilustração ou composição abstrata original.
-- **Sem ferramenta de imagem disponível:** informe a limitação e use o gerador local somente como fallback explícito, depois de confirmar identidade validada, direção aprovada e papel de cada ativo. O fallback deve aplicar os tokens e a composição definida; quando uma foto autorizada for o foco, passe seu caminho relativo como `fotoDestaque` para compô-la diretamente. Nunca entregue uma fórmula visual genérica como arte pronta.
+- **Sem ferramenta de imagem disponível:** informe a limitação e use o gerador local somente como fallback explícito, depois de confirmar identidade validada, integração validada, direção aprovada e papel de cada ativo. O fallback deve aplicar tokens, território visual, composição, etapas/itens e CTA definidos; quando uma foto autorizada for o foco, passe seu caminho relativo como `fotoDestaque` para compô-la diretamente. Nunca entregue uma fórmula visual genérica como arte pronta.
 
 Não invente um rosto para representar o usuário. Se a semelhança falhar após tentativas direcionadas, use a foto original ou uma direção sem rosto.
 

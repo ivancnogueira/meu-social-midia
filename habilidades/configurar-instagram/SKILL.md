@@ -41,8 +41,8 @@ Explique apenas o próximo passo necessário. A interface da Meta muda; quando o
 2. Oriente criação/configuração no painel oficial da Meta.
 3. Oriente permissões mínimas necessárias para leitura e publicação.
 4. Peça ao usuário para preencher o `.env` local diretamente, sem mostrar valores.
-5. Execute `npm run diagnosticar` para validar presença e formato sanitizado.
-6. Faça teste de leitura somente quando o usuário autorizar acesso de rede.
+5. Execute `npm run diagnosticar -- --rede` ou `npm run validar:integracoes`. Campo preenchido não é integração funcional: a validação deve consultar a Meta e confirmar o perfil correspondente ao identificador local; no modo local, deve confirmar que o repositório público e a branch do Pages existem e que o token consegue lê-los.
+6. Mostre somente sucesso/falha e o próximo ajuste, nunca valores, tokens, URLs com token ou respostas brutas.
 7. Mostre apenas conta, username/ID não secreto e estado; nunca ecoe credenciais.
 
 No modo servidor, valide também domínio HTTPS e disponibilidade das URLs de mídia com `npm run diagnosticar:vps`. Não altere firewall, DNS, Caddy ou serviço sem pedido específico.
@@ -70,8 +70,8 @@ Quando chamada pelo `nucleo-social-media` na etapa final do onboarding:
 1. aceite somente um manifesto do tipo `post_individual` com uma única imagem `1080x1350` já aprovada no preview;
 2. conduza a configuração da Meta sem pedir segredos no chat; Telegram é opcional;
 3. confirme que a URL HTTPS da imagem é acessível externamente; `127.0.0.1` nunca atende esse requisito;
-4. no modo local, obtenha autorização para tornar os artefatos públicos e execute `npm run pages:publicar -- CAMINHO_PUBLICACAO`; nunca peça nem exiba o token;
-5. abra o preview público e confirme que a imagem está acessível antes de continuar;
+4. no modo local, obtenha autorização para tornar os artefatos públicos e execute `npm run pages:publicar -- CAMINHO_PUBLICACAO`; nunca peça nem exiba o token. GitHub Pages é a hospedagem pública da mídia que a Meta busca, não uma hospedagem adicional da Meta;
+5. execute `npm run pages:validar -- CAMINHO_PUBLICACAO`, abra o preview público e confirme que imagem e preview HTTPS estão acessíveis antes de continuar; entregue o link público, não a imagem solta no chat;
 6. execute o dry-run;
 7. crie o job, mostre o ID e solicite no chat a resposta exata `APROVAR ID-DO-JOB`;
 8. aceite somente essa confirmação posterior ao job e execute `npm run aprovar:local -- ID-DO-JOB "APROVAR ID-DO-JOB"`;

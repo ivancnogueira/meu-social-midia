@@ -29,7 +29,7 @@ npm run publicar-instagram -- caminho/publicacao.json
 
 O modo seco valida imagens e legenda, registra auditoria e não acessa serviços externos. No modo servidor, `urlsPublicas` é preenchido durante a geração usando o domínio e tokens de mídia. No modo local, informe uma URL HTTPS por imagem antes da publicação real.
 
-No modo local, o fluxo padrão é executar `npm run pages:publicar -- caminho/publicacao.json` depois da aprovação visual e antes de criar o job. O comando publica os artefatos autorizados no repositório de Pages do usuário e grava as URLs públicas no manifesto.
+No modo local, o fluxo padrão é executar `npm run pages:publicar -- caminho/publicacao.json` depois da aprovação visual e antes de criar o job. O comando publica os artefatos autorizados no repositório de Pages do usuário e grava as URLs públicas no manifesto. Confirme que a prévia e o PNG respondem em HTTPS e entregue esse link ao usuário antes de criar o job; essa é a URL que a Meta utilizará para buscar a mídia.
 
 ## 4. Solicitar aprovação
 

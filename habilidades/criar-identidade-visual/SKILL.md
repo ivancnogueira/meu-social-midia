@@ -35,15 +35,15 @@ Apresente duas ou três direções realmente distintas. Para cada uma, explique 
 
 ## Logo e wordmark
 
-Priorize um wordmark SVG editável quando não existir logo. Ele deve ter leitura em avatar, cabeçalho e rodapé de post, respeitar contraste e usar somente nome, iniciais e elementos aprovados. Salve em `recursos/logos/` com nome descritivo, por exemplo `wordmark-principal.svg`.
+Quando não existir logo, pergunte se a pessoa prefere exploração com ImageGen ou um wordmark SVG editável. Com autorização e ImageGen disponível, gere duas ou três explorações de marca com fundo genuinamente transparente e sem texto como elemento crítico; apresente-as em preview, salve a escolha aprovada em `recursos/logos/` com nome versionado e registre-a no brandbook. Sem ImageGen, ou quando houver nome/slogan que precisem de precisão, priorize wordmark SVG editável. Ele deve ter leitura em avatar, cabeçalho e rodapé de post, respeitar contraste e usar somente nome, iniciais e elementos aprovados.
 
-Não use ImageGen para texto final, logotipo, símbolo de precisão ou marca d'água: esses elementos devem ser construídos de modo determinístico e revisável. ImageGen pode ser usado apenas para explorar atmosferas abstratas, nunca como logo final. Antes de aplicar o arquivo na arte, mostre-o sobre fundo claro e escuro e obtenha aprovação explícita.
+Não aceite uma geração como marca registrada nem presuma disponibilidade jurídica. Nome, slogan, preço, data e demais texto crítico devem ser aplicados deterministicamente e revisados. Antes de aplicar o arquivo na arte, mostre-o sobre fundo claro e escuro, junto com brandbook, design system, tokens e briefing, e obtenha aprovação explícita.
 
 ## Entregas obrigatórias
 
 Depois da aprovação da direção, mantenha estas fontes sincronizadas:
 
-1. `recursos/brand/brandbook.md`: fundamento, regras, ativos, usos e anti-padrões em linguagem humana.
+1. `recursos/brand/brandbook.md`: fundamento, território visual escolhido, regras, ativos, usos e anti-padrões em linguagem humana.
 2. `recursos/brand/design-system.md`: decisões executáveis de direção de arte.
 3. `recursos/brand/tokens.css`: cores, fontes, espaçamentos e componentes exatos.
 4. `conteudos/identidade-visual.yml`: tema estruturado e a seção `recursos` com fotos, logo, referências e direitos de uso.

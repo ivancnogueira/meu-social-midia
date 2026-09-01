@@ -5,6 +5,7 @@ import { lookup } from 'node:dns/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { normalizarUrlBase } from './lib/configuracao.mjs';
+import { validarIntegracoes } from './validar-integracoes.mjs';
 
 const raizPadrao = join(dirname(fileURLToPath(import.meta.url)), '..');
 const argumentos = process.argv.slice(2);
@@ -125,6 +126,15 @@ async function main() {
   if (!metaPronta) {
     console.log('Meta / Instagram: siga documentacao/configurar-meta.md antes da integração.');
     if (exigirMeta) process.exitCode = 1;
+  }
+  if (verificarRede && metaPronta && (modo === 'servidor' || env.get('GITHUB_PAGES_OWNER'))) {
+    try {
+      await validarIntegracoes({ diretorioRaiz: diretorioDoProjeto });
+      console.log('- Integrações: Meta/Instagram e hospedagem validadas por conexão real');
+    } catch (erro) {
+      console.log(`- Integrações: falharam na validação real (${erro.message})`);
+      process.exitCode = 1;
+    }
   }
 }
 

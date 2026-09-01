@@ -183,6 +183,8 @@ export function montarBriefingVisual(dados) {
 - Conceito visual: ${dados.conceito}
 - Ponto focal: ${dados.pontoFocal}
 - Estrutura: ${dados.estrutura}
+- Layout editorial: ${dados.layout || 'A definir'}
+- Etapas ou itens visuais: ${(dados.etapas || []).join(' → ') || 'Não se aplica'}
 - Elementos recorrentes: ${dados.componentes}
 - Texto de arte: ${dados.textoArte}
 - CTA visual: ${dados.ctaVisual}
@@ -210,6 +212,7 @@ export function montarBrandbook(dados) {
 - Paleta: ${dados.primaria}, ${dados.secundaria}, ${dados.fundo}, ${dados.acento}
 - Tipografia: ${dados.fonteTitulo} para títulos; ${dados.fonteTexto} para leitura
 - Componentes: ${dados.componentes}
+- Layout editorial: ${dados.layout || 'A definir'}
 - Hierarquia: ${dados.hierarquia}
 - Anti-padrões: ${dados.antiPadroes}
 
@@ -297,6 +300,8 @@ export async function executarOnboarding({ diretorioRaiz = raizPadrao, terminalI
       conceito: await perguntarObrigatorio(rl, 'Conceito visual do primeiro post'),
       pontoFocal: await perguntarObrigatorio(rl, 'Ponto focal dominante do primeiro post'),
       estrutura: await perguntarObrigatorio(rl, 'Estrutura da composição (por exemplo, editorial em painéis)'),
+      layout: await perguntarObrigatorio(rl, 'Território visual: editorial impresso, terminal técnico, brutalismo suave, luxo silencioso, vitalidade orgânica ou dossiê investigativo', '', 'escolha um território visual único; “moderno” ou “minimalista” não basta'),
+      etapas: (await perguntar(rl, 'Até quatro etapas/itens visuais, separados por |, ou NÃO SE APLICA')).split('|').map((item) => item.trim()).filter((item) => item && !/não se aplica|nao se aplica/i.test(item)),
       componentes: visual.componentes,
       textoArte: await perguntarObrigatorio(rl, 'Texto central previsto para a arte'),
       ctaVisual: await perguntarObrigatorio(rl, 'CTA visual previsto'),

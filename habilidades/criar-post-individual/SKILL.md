@@ -26,6 +26,7 @@ Inspecione fotos, logos e referências autorizadas. Leia a identidade visual. De
 - composição, contraste, espaço negativo e margens;
 - papel da pessoa ou produto;
 - relação entre arte e legenda.
+- um território visual único e, se houver sequência lógica, as etapas/itens que precisam aparecer na composição.
 
 Use foto real quando reconhecimento, autoridade ou produto real forem importantes. Use ImageGen para nova composição baseada na pessoa apenas com fotos autorizadas e preservação de identidade.
 
@@ -39,7 +40,7 @@ Use foto real quando reconhecimento, autoridade ou produto real forem importante
 6. Salve em `saidas/posts-individuais/{slug}/slide-01.png`.
 7. Normalize para `1080x1350` sem cortar elementos importantes.
 
-O gerador local é fallback, não padrão. Ele só pode ser usado depois de identidade validada e direção visual aprovada; deve aplicar tokens, composição, selo, CTA visual e logo autorizado quando houver. Quando a pessoa ou o produto for o foco e houver foto autorizada, entregue o caminho relativo em `fotoDestaque` para que ela seja composta diretamente em vez de descartada. Se a peça resultante parecer uma fórmula genérica de texto sobre fundo, reprove-a e volte para a direção visual. HTML serve somente para preview.
+O gerador local é fallback, não padrão. Ele só pode ser usado depois de identidade validada, direção visual aprovada e `npm run validar:integracoes` bem-sucedido; deve aplicar tokens, território, composição, selo, CTA visual, etapas e logo autorizado quando houver. Quando a pessoa ou o produto for o foco e houver foto autorizada, entregue o caminho relativo em `fotoDestaque` para que ela seja composta diretamente em vez de descartada. Se a peça resultante parecer uma fórmula genérica de texto sobre fundo, reprove-a e volte para a direção visual. HTML serve somente para preview.
 
 ## Quality gates
 

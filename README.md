@@ -80,7 +80,7 @@ As três habilidades visuais sempre leem a pasta `brand`. Planejamento e copy a 
 
 O arquivo `recursos/brand/briefing-visual.md` registra os ativos autorizados e a direção aprovada da primeira peça; `recursos/brand/brandbook.md` torna a estratégia visual legível e reutilizável. O onboarding pergunta se a pessoa já tem identidade ou quer criar uma. Na segunda rota, `criar-identidade-visual` prepara um wordmark SVG editável opcional, brandbook, design system e tokens para aprovação. Sem as cinco camadas — brandbook, briefing visual, design system, tokens e YAML — a geração do onboarding é bloqueada. Se ImageGen não estiver disponível, o fallback local só é oferecido com autorização e aplica essa direção; ele não é um atalho para pular a identidade.
 
-`diagnosticar` apenas informa se os campos necessários estão preenchidos — ele não mostra valores de credenciais nem envia conteúdo para serviços externos.
+`diagnosticar` apenas informa se os campos necessários estão preenchidos. Na etapa de configurações, `npm run validar:integracoes` faz a validação de leitura real da Meta e do GitHub Pages sem exibir ou registrar valores de credenciais; somente depois dela o primeiro post pode ser criado.
 
 ## O que o projeto entrega
 
@@ -88,7 +88,7 @@ O arquivo `recursos/brand/briefing-visual.md` registra os ativos autorizados e a
 - Modelos legíveis em Markdown para perfil, pilares, ideias e campanhas.
 - Guias de configuração da Meta, GitHub Pages e Telegram opcional.
 - Oito habilidades especialistas com onboarding, estratégia, identidade visual, copy, direção de arte, integração, quality gates e handoffs.
-- Pipeline ImageGen no Codex para carrossel, post individual e anúncio, com fotos, logos, referências, normalização e fallback local.
+- Pipeline ImageGen no Codex para carrossel, post individual, anúncio e exploração de logo transparente, com fotos, logos, referências, normalização e fallback local orientado por território visual.
 - Preview mobile, vitrine, fila auditável e publicação pela API oficial.
 - Aprovação auditável diretamente no chat; Telegram por long polling como extensão opcional.
 - No modo servidor, preview com link temporário e URLs de mídia assinadas.

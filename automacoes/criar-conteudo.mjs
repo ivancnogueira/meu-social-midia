@@ -6,6 +6,7 @@ import { gerarHtml } from './criar-previa.mjs';
 import { escreverJsonAtomico, lerEnv } from './lib/arquivos.mjs';
 import { criarUrlMidia } from './lib/configuracao.mjs';
 import { coresDaIdentidade, localizarFotoAutorizada, localizarLogoAutorizado, validarIdentidadeParaArte } from './lib/identidade.mjs';
+import { integracoesValidadasRecentemente } from './validar-integracoes.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const opcao = (nome) => { const i = process.argv.indexOf(nome); return i < 0 ? undefined : process.argv[i + 1]; };
@@ -29,12 +30,24 @@ function svgSlide({ titulo, apoio = '', indice, total, cores, direcao = {} }) {
   const selo = direcao.selo || 'IDEIA PRÁTICA';
   const assinatura = direcao.assinatura || cores.usuario || 'Sua marca';
   const estrutura = String(direcao.estrutura || '').toLowerCase();
+  const layout = String(direcao.layout || '').toLowerCase();
+  const etapas = Array.isArray(direcao.etapas) ? direcao.etapas.filter(Boolean).slice(0, 4) : [];
+  const usaFluxo = /fluxo|etapa|processo|diagrama/.test(`${layout} ${estrutura}`) && etapas.length >= 2;
   const usaPainel = /card|painel|editorial|bloco/.test(estrutura);
   const painel = usaPainel ? `<rect x="80" y="${inicioApoio - 22}" width="920" height="${apoio ? 142 : 86}" rx="28" fill="#ffffff" opacity=".76"/>` : '';
-  const formas = usaPainel
+  const formas = usaFluxo
+    ? `<path d="M0 0H1080V184H0Z" fill="${escapar(cores.secundaria)}"/><rect x="80" y="76" width="12" height="1198" rx="6" fill="${escapar(cores.destaque)}"/>`
+    : usaPainel
     ? `<path d="M774 90H1080V512C998 430 911 364 774 326Z" fill="${escapar(cores.secundaria)}" opacity=".96"/><circle cx="912" cy="248" r="126" fill="${escapar(cores.acento)}" opacity=".88"/><circle cx="912" cy="248" r="72" fill="${escapar(cores.destaque)}"/>`
     : `<path d="M700 0H1080V580C952 486 871 393 700 344Z" fill="${escapar(cores.destaque)}" opacity=".88"/><path d="M768 0H1080V286C965 242 886 183 768 168Z" fill="${escapar(cores.acento)}" opacity=".82"/>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350"><defs><pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="${escapar(cores.secundaria)}" stroke-opacity=".10" stroke-width="1"/></pattern></defs><rect width="1080" height="1350" fill="${escapar(cores.fundo)}"/><rect width="1080" height="1350" fill="url(#grid)"/>${formas}<rect x="80" y="76" width="12" height="1198" rx="6" fill="${escapar(cores.destaque)}"/><g font-family="${escapar(cores.fonteTitulo)},Arial,sans-serif"><rect x="104" y="112" width="${Math.min(360, 44 + selo.length * 17)}" height="52" rx="26" fill="${escapar(cores.secundaria)}"/><text x="128" y="146" font-size="23" font-weight="700" fill="#ffffff" letter-spacing="1.8">${escapar(selo.toUpperCase())}</text><text x="104" y="232" font-size="28" font-weight="700" fill="${escapar(cores.texto)}" opacity=".58">${String(indice).padStart(2,'0')} / ${String(total).padStart(2,'0')}</text>${tituloSvg}</g>${painel}<g font-family="${escapar(cores.fonteTexto)},Arial,sans-serif">${apoioSvg}<line x1="104" y1="1210" x2="976" y2="1210" stroke="${escapar(cores.secundaria)}" stroke-opacity=".22"/><text x="104" y="1254" font-size="27" font-weight="700" fill="${escapar(cores.texto)}">${escapar(assinatura)}</text><text x="976" y="1254" text-anchor="end" font-size="24" font-weight="700" fill="${escapar(cores.destaque)}">${escapar(direcao.ctaVisual || 'SALVE ESTE POST')}</text></g></svg>`;
+  const inicioFluxo = 875;
+  const fluxo = usaFluxo ? etapas.map((etapa, i) => {
+    const x = 104 + i * Math.floor(872 / etapas.length); const largura = Math.floor(820 / etapas.length);
+    const seta = i < etapas.length - 1 ? `<text x="${x + largura + 10}" y="${inicioFluxo + 68}" font-size="34" font-weight="800" fill="${escapar(cores.destaque)}">→</text>` : '';
+    return `<rect x="${x}" y="${inicioFluxo}" width="${largura}" height="164" rx="18" fill="${escapar(cores.secundaria)}"/><rect x="${x}" y="${inicioFluxo}" width="${largura}" height="8" rx="4" fill="${escapar(cores.destaque)}"/><text x="${x + 24}" y="${inicioFluxo + 44}" font-size="19" font-weight="700" fill="${escapar(cores.acento)}" letter-spacing="2">${String(i + 1).padStart(2, '0')}</text><text x="${x + 24}" y="${inicioFluxo + 94}" font-size="27" font-weight="800" fill="#ffffff">${escapar(String(etapa).slice(0, 18))}</text>${seta}`;
+  }).join('') : '';
+  const topo = usaFluxo ? `<rect x="104" y="68" width="${Math.min(560, 54 + selo.length * 17)}" height="54" rx="27" fill="#ffffff" opacity=".98"/><text x="132" y="104" font-size="23" font-weight="800" fill="${escapar(cores.secundaria)}" letter-spacing="1.8">${escapar(selo.toUpperCase())}</text>` : `<rect x="104" y="112" width="${Math.min(360, 44 + selo.length * 17)}" height="52" rx="26" fill="${escapar(cores.secundaria)}"/><text x="128" y="146" font-size="23" font-weight="700" fill="#ffffff" letter-spacing="1.8">${escapar(selo.toUpperCase())}</text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350"><defs><pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="${escapar(cores.secundaria)}" stroke-opacity=".10" stroke-width="1"/></pattern></defs><rect width="1080" height="1350" fill="${escapar(cores.fundo)}"/><rect width="1080" height="1350" fill="url(#grid)"/>${formas}${!usaFluxo ? `<rect x="80" y="76" width="12" height="1198" rx="6" fill="${escapar(cores.destaque)}"/>` : ''}<g font-family="${escapar(cores.fonteTitulo)},Arial,sans-serif">${topo}<text x="104" y="${usaFluxo ? 250 : 232}" font-size="28" font-weight="700" fill="${escapar(cores.texto)}" opacity=".58">${String(indice).padStart(2,'0')} / ${String(total).padStart(2,'0')}</text>${tituloSvg}</g>${painel}<g font-family="${escapar(cores.fonteTexto)},Arial,sans-serif">${apoioSvg}${fluxo}<line x1="104" y1="1210" x2="976" y2="1210" stroke="${escapar(cores.secundaria)}" stroke-opacity=".22"/><text x="104" y="1254" font-size="27" font-weight="700" fill="${escapar(cores.texto)}">${escapar(assinatura)}</text><text x="976" y="1254" text-anchor="end" font-size="24" font-weight="700" fill="${escapar(cores.destaque)}">${escapar(direcao.ctaVisual || 'SALVE ESTE POST')}</text></g></svg>`;
 }
 
 export async function criarConteudo(dados, diretorioRaiz = raiz) {
@@ -46,9 +59,13 @@ export async function criarConteudo(dados, diretorioRaiz = raiz) {
   const mapa = { carrossel: 'carrosseis', 'post-individual': 'posts-individuais', 'post-anuncio': 'posts-de-anuncio' };
   const pasta = join(diretorioRaiz, 'saidas', mapa[dados.tipo], dados.slug); await mkdir(pasta, { recursive: true });
   const identidade = await readFile(join(diretorioRaiz, 'conteudos', 'identidade-visual.yml'), 'utf8');
+  const env = await lerEnv(join(diretorioRaiz, '.env'));
   const cores = coresDaIdentidade(identidade);
   const exigeIdentidade = dados.primeiroPostOnboarding === true || dados.exigirIdentidadeVisual === true;
-  if (exigeIdentidade) await validarIdentidadeParaArte(diretorioRaiz, dados.direcaoVisual);
+  if (exigeIdentidade) {
+    await validarIdentidadeParaArte(diretorioRaiz, dados.direcaoVisual);
+    if (dados.primeiroPostOnboarding === true && env.INSTAGRAM_ACCESS_TOKEN && !(await integracoesValidadasRecentemente(diretorioRaiz))) throw new Error('Integrações ainda não foram validadas por conexão real. Execute npm run validar:integracoes antes da primeira arte.');
+  }
   const logo = await localizarLogoAutorizado(diretorioRaiz, dados.logo || '');
   const fotoDestaque = await localizarFotoAutorizada(diretorioRaiz, dados.fotoDestaque || dados.direcaoVisual?.fotoDestaque || '');
   const imagens = [];
@@ -80,7 +97,6 @@ export async function criarConteudo(dados, diretorioRaiz = raiz) {
     imagens.push(destino);
   }
   const id = String(dados.id || dados.slug).toUpperCase();
-  const env = await lerEnv(join(diretorioRaiz, '.env'));
   let urlsPublicas = Array.isArray(dados.urlsPublicas) && dados.urlsPublicas.length ? dados.urlsPublicas : [];
   if (!urlsPublicas.length && env.IMAGE_PUBLIC_BASE_URL) {
     if (env.APP_MODE === 'servidor' && !env.MEDIA_TOKEN_SECRET) throw new Error('MEDIA_TOKEN_SECRET não configurado no modo servidor.');

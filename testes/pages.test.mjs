@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { publicarNoGitHubPages } from '../automacoes/publicar-github-pages.mjs';
+import { publicarNoGitHubPages, validarPublicacaoNoGitHubPages } from '../automacoes/publicar-github-pages.mjs';
 
 test('GitHub Pages envia somente entrega e grava URLs públicas sem expor token', async () => {
   const raiz = await mkdtemp(join(tmpdir(), 'sms-pages-'));
@@ -31,5 +31,7 @@ test('GitHub Pages envia somente entrega e grava URLs públicas sem expor token'
     assert.ok(chamadas.every((item) => !item.url.includes('token-secreto') && !String(item.opcoes.body || '').includes('token-secreto')));
     const salvo = JSON.parse(await readFile(manifesto, 'utf8'));
     assert.equal(salvo.previewPublico, 'https://cliente.github.io/previews/previas/primeiro-post.html');
+    const validado = await validarPublicacaoNoGitHubPages({ caminhoManifesto: manifesto, fetchFn: async () => ({ ok: true }) });
+    assert.equal(validado.preview, salvo.previewPublico);
   } finally { await rm(raiz, { recursive: true, force: true }); }
 });

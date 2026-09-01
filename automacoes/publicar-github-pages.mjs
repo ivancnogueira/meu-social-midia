@@ -95,8 +95,28 @@ export async function publicarNoGitHubPages({ caminhoManifesto, diretorioRaiz = 
   return { preview: publicacao.previewPublico, imagens: publicacao.urlsPublicas };
 }
 
+export async function validarPublicacaoNoGitHubPages({ caminhoManifesto, fetchFn = fetch } = {}) {
+  if (!caminhoManifesto) throw new Error('Informe o caminho de publicacao.json.');
+  const publicacao = JSON.parse(await readFile(resolve(caminhoManifesto), 'utf8'));
+  const urls = [...(publicacao.urlsPublicas || []), publicacao.previewPublico].filter(Boolean);
+  if (!urls.length || urls.some((url) => !String(url).startsWith('https://'))) throw new Error('Ainda não há URLs HTTPS públicas no manifesto. Envie a prévia ao Pages primeiro.');
+  for (const url of urls) {
+    let resposta;
+    try { resposta = await fetchFn(url, { signal: AbortSignal.timeout(12_000) }); }
+    catch { throw new Error(`URL pública ainda não respondeu: ${url}`); }
+    if (!resposta.ok) throw new Error(`URL pública respondeu HTTP ${resposta.status}: ${url}`);
+  }
+  return { preview: publicacao.previewPublico, imagens: publicacao.urlsPublicas };
+}
+
 async function main() {
-  const caminho = process.argv.slice(2).find((item) => !item.startsWith('--'));
+  const argumentos = process.argv.slice(2);
+  const caminho = argumentos.find((item) => !item.startsWith('--'));
+  if (argumentos.includes('--validar')) {
+    const resultado = await validarPublicacaoNoGitHubPages({ caminhoManifesto: caminho });
+    console.log(`Preview público validado: ${resultado.preview}`);
+    return;
+  }
   const resultado = await publicarNoGitHubPages({ caminhoManifesto: caminho });
   console.log(`Arquivos enviados ao GitHub Pages. Preview esperado: ${resultado.preview}`);
   console.log('Aguarde o Pages concluir a implantação e valide a URL antes de publicar na Meta.');

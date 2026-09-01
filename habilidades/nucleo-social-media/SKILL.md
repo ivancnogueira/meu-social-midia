@@ -34,12 +34,12 @@ Trate a primeira configuração como um percurso único. Mostre os seis marcos e
 6. Pergunte: **já tem identidade visual** ou **quer criar uma agora**. Faça o inventário obrigatório de fotos, logo, referências e direitos de uso. Cada componente deve ser fornecido ou receber uma decisão explícita de não uso na primeira peça; registre em `recursos/brand/briefing-visual.md` e na seção `recursos` de `conteudos/identidade-visual.yml`.
 7. Se a pessoa quiser criar ou traduzir a identidade, acione `criar-identidade-visual` antes de conteúdo. Ele entrega wordmark opcional, brandbook, design system, tokens e YAML aprovados. Sem logo, permita um wordmark provisório aprovado, nunca um símbolo inventado.
 8. Construa ou refine `recursos/brand/brandbook.md`, `recursos/brand/design-system.md`, `recursos/brand/tokens.css` e `conteudos/identidade-visual.yml` com o usuário. O Markdown registra decisões; o CSS e o YAML fornecem valores exatos aos scripts.
-9. Proponha conceito, ponto focal, estrutura, componentes, tratamento e CTA visual do primeiro post. Mostre a direção e obtenha aprovação explícita antes de gerar qualquer arte.
-10. Na etapa 4, acione `configurar-instagram` para orientar a criação do app Meta, GitHub Pages ou domínio e o preenchimento local do `.env`; valide o diagnóstico antes de produzir conteúdo. Telegram é opcional.
+9. Proponha conceito, ponto focal, estrutura, território visual único, etapas quando aplicáveis, componentes, tratamento e CTA visual do primeiro post. Mostre a direção e obtenha aprovação explícita antes de gerar qualquer arte.
+10. Na etapa 4, acione `configurar-instagram` para orientar a criação do app Meta, GitHub Pages ou domínio e o preenchimento local do `.env`; execute `npm run validar:integracoes` antes de produzir conteúdo. Telegram é opcional.
 11. Na etapa 5, acione `planejar-conteudo` para construir pilares e primeira pauta.
 12. Faça `planejar-conteudo` entregar um primeiro briefing com objetivo, público, mensagem, formato, CTA e fontes.
 13. Para o post inaugural, use `criar-post-individual` com `primeiroPostOnboarding: true` e uma direção visual completa; nunca pule o gate de identidade só porque o usuário autorizou sugestões estratégicas.
-14. Mostre o preview, coordene ajustes e obtenha aprovação visual explícita da versão. Após a autorização específica para upload, publique no Pages ou domínio e valide a URL HTTPS.
+14. Mostre o preview, coordene ajustes e obtenha aprovação visual explícita da versão. Após a autorização específica para upload, publique PNG, preview e vitrine no Pages ou domínio; espere a URL HTTPS responder e entregue o link público antes de criar o job.
 15. Na etapa 6, crie o job e use `configurar-instagram` para conduzir a aprovação local no chat e a primeira publicação real do post individual.
 16. Atualize `conteudos/estado-do-studio.yml` após cada marco e só encerre o onboarding quando a Meta retornar o resultado da publicação. A partir daí, o Studio está pronto: roteie novas solicitações às habilidades corretas sem reiniciar o onboarding.
 
